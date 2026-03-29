@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Neural Orchestrator | Neon Retail Tech</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;900&amp;family=Inter:wght@300;400;600;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#1b1b1b",
+                        "surface-container": "#1f1f1f",
+                        "surface-bright": "#393939",
+                        "tertiary-fixed": "#f1daff",
+                        "primary-fixed-dim": "#ffb1c5",
+                        "on-primary-fixed-variant": "#8f0045",
+                        "tertiary": "#dfb7ff",
+                        "secondary": "#ffb59e",
+                        "on-primary-container": "#590028",
+                        "on-secondary-fixed": "#3a0b00",
+                        "on-background": "#e2e2e2",
+                        "on-tertiary": "#4b007e",
+                        "surface": "#131313",
+                        "surface-container-high": "#2a2a2a",
+                        "on-tertiary-fixed-variant": "#690bac",
+                        "primary-fixed": "#ffd9e1",
+                        "tertiary-container": "#b96cfd",
+                        "secondary-container": "#ff571a",
+                        "error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb59e",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#131313",
+                        "on-surface-variant": "#e5bcc5",
+                        "primary": "#ffb1c5",
+                        "on-primary": "#65002f",
+                        "surface-container-highest": "#353535",
+                        "inverse-on-surface": "#303030",
+                        "on-tertiary-container": "#41006f",
+                        "on-error": "#690005",
+                        "inverse-primary": "#ba005c",
+                        "surface-tint": "#ffb1c5",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-surface": "#e2e2e2",
+                        "on-secondary-container": "#521300",
+                        "surface-variant": "#353535",
+                        "background": "#131313",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#5c3f46",
+                        "inverse-surface": "#e2e2e2",
+                        "on-primary-fixed": "#3f001b",
+                        "on-secondary-fixed-variant": "#852400",
+                        "on-tertiary-fixed": "#2d004f",
+                        "on-secondary": "#5e1700",
+                        "primary-container": "#ff4a8e",
+                        "outline": "#ac878f",
+                        "secondary-fixed": "#ffdbd0",
+                        "tertiary-fixed-dim": "#dfb7ff"
+                    },
+                    fontFamily: {
+                        "headline": ["Lexend"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .neon-glow-primary {
+            box-shadow: 0 0 15px rgba(255, 0, 128, 0.3);
+        }
+        .neon-border-bottom {
+            box-shadow: 0 2px 0 0 #ff4a8e;
+        }
+        .text-neon-fuchsia {
+            color: #ff0080;
+            text-shadow: 0 0 8px rgba(255, 0, 128, 0.4);
+        }
+        .scanline-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-white overflow-x-hidden">
+<!-- Top Navigation Anchor -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-[#131313] flex justify-between items-center w-full px-6 py-4 max-w-none shadow-[0_0_15px_rgba(255,0,128,0.1)] shadow-[0_1px_0_0_rgba(255,0,128,0.3)]">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-black tracking-tighter text-[#ff0080] drop-shadow-[0_0_8px_rgba(255,0,128,0.4)] font-headline uppercase">Vibe Coding</span>
+<div class="hidden md:flex gap-6">
+<a class="font-headline uppercase tracking-tighter text-sm text-[#ff0080] border-b-2 border-[#ff0080] pb-1" href="#">Projects</a>
+<a class="font-headline uppercase tracking-tighter text-sm text-gray-400 hover:text-white transition-colors" href="#">Blog</a>
+<a class="font-headline uppercase tracking-tighter text-sm text-gray-400 hover:text-white transition-colors" href="#">About</a>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary-fixed px-6 py-2 font-headline uppercase text-xs tracking-widest font-bold hover:brightness-125 active:scale-95 transition-all duration-200">
+            Subscribe
+        </button>
+</nav>
+<!-- Content Canvas -->
+<main class="pt-20">
+<!-- Back Button Section -->
+<div class="px-6 py-4 max-w-7xl mx-auto">
+<button class="flex items-center gap-2 group text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span class="font-label uppercase tracking-widest text-xs">Return to Intelligence Hub</span>
+</button>
+</div>
+<!-- Hero Section -->
+<section class="relative w-full h-[614px] flex items-end px-6 pb-12 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent z-10"></div>
+<img class="w-full h-full object-cover grayscale opacity-50 brightness-50" data-alt="Abstract futuristic digital matrix grid with glowing fuchsia and deep purple circuit lines in a dark technical environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWWQbJwfUixkHUfRZXUeUCfSd_my8GFTOvJ6A8BRWUKpTrp6Xy6wVERLoFiplrFjHBsuME3HVE1IpKHvqOTcuCaIUVy2gKiSfIiyLuVCRLZAnWx2En8KDpIwlyRNktGxoo5THAyg43welaYMcCkol03nhimbbKYOHue_azhv0lzfdQ6czrhloHl5K8Y6UhEoVsLnJqA8uaqvveWabmS5zaVpIhgEWqZMmw6CitYtbonwhayNPrUOztqhP-qg5fmG7T5HjIdGkwE1Cz"/>
+<div class="absolute inset-0 scanline-overlay z-20"></div>
+</div>
+<div class="relative z-30 max-w-7xl mx-auto w-full">
+<div class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container font-headline text-[10px] uppercase tracking-[0.2em] mb-4">
+                    Project Codename: Neural Orchestrator
+                </div>
+<h1 class="text-6xl md:text-8xl font-black font-headline uppercase tracking-tighter leading-none mb-4 max-w-4xl">
+                    Retail <span class="text-neon-fuchsia">Intelligence</span> Redefined
+                </h1>
+<p class="text-on-surface-variant font-body text-lg max-w-2xl border-l-2 border-primary pl-6">
+                    A synchronized logic engine designed to harmonize chaotic retail data streams into a singular, high-velocity operational command center.
+                </p>
+</div>
+</section>
+<!-- Bento Grid Content -->
+<section class="max-w-7xl mx-auto px-6 py-24 grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Overview: Bento Large -->
+<div class="md:col-span-8 bg-surface-container-low p-10 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-8xl" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+<h2 class="font-headline text-3xl font-black uppercase tracking-tight mb-8 flex items-center gap-3">
+<span class="w-2 h-8 bg-primary"></span> Overview
+                </h2>
+<p class="text-on-surface font-body text-xl leading-relaxed mb-6">
+                    In the high-stakes environment of global retail, data latency is a fatal error. The Neural Orchestrator isn't just a dashboard; it's a sensory organ for your business. 
+                </p>
+<p class="text-on-surface-variant font-body leading-relaxed">
+                    By aggregating cross-channel inventory, real-time foot traffic, and predictive consumer sentiment, we provide an unblinking view of the retail landscape. Our engine identifies friction points before they impact the bottom line, allowing for instantaneous tactical pivots.
+                </p>
+</div>
+<!-- Tech Stack: Bento Side -->
+<div class="md:col-span-4 bg-surface-container-high p-8 flex flex-col justify-between">
+<div>
+<h2 class="font-headline text-xl font-bold uppercase tracking-widest text-secondary mb-8">Tech Stack</h2>
+<div class="flex flex-wrap gap-3">
+<span class="px-4 py-2 bg-surface-container-lowest border border-secondary/30 text-secondary font-label text-xs uppercase tracking-widest hover:bg-secondary hover:text-on-secondary-fixed transition-all cursor-default">Next.js 14</span>
+<span class="px-4 py-2 bg-surface-container-lowest border border-secondary/30 text-secondary font-label text-xs uppercase tracking-widest hover:bg-secondary hover:text-on-secondary-fixed transition-all cursor-default">PyTorch</span>
+<span class="px-4 py-2 bg-surface-container-lowest border border-secondary/30 text-secondary font-label text-xs uppercase tracking-widest hover:bg-secondary hover:text-on-secondary-fixed transition-all cursor-default">Websocket</span>
+<span class="px-4 py-2 bg-surface-container-lowest border border-secondary/30 text-secondary font-label text-xs uppercase tracking-widest hover:bg-secondary hover:text-on-secondary-fixed transition-all cursor-default">Redis Cache</span>
+<span class="px-4 py-2 bg-surface-container-lowest border border-secondary/30 text-secondary font-label text-xs uppercase tracking-widest hover:bg-secondary hover:text-on-secondary-fixed transition-all cursor-default">Tailwind CSS</span>
+<span class="px-4 py-2 bg-surface-container-lowest border border-secondary/30 text-secondary font-label text-xs uppercase tracking-widest hover:bg-secondary hover:text-on-secondary-fixed transition-all cursor-default">Postgres</span>
+</div>
+</div>
+<div class="mt-12 pt-8 border-t border-outline-variant/20">
+<div class="flex items-center gap-4">
+<div class="w-3 h-3 bg-secondary rounded-full animate-pulse shadow-[0_0_10px_#ff4d00]"></div>
+<span class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant">System Status: Optimal</span>
+</div>
+</div>
+</div>
+<!-- The Problem: Asymmetric Column -->
+<div class="md:col-span-6 bg-surface-container p-10">
+<h2 class="font-headline text-3xl font-black uppercase tracking-tight mb-8">The Problem</h2>
+<div class="space-y-6">
+<div class="flex gap-4">
+<span class="text-error font-headline text-xl">01</span>
+<p class="text-on-surface-variant">Fragmented data silos leading to critical intelligence gaps.</p>
+</div>
+<div class="flex gap-4">
+<span class="text-error font-headline text-xl">02</span>
+<p class="text-on-surface-variant">High-latency reporting making real-time pivots impossible.</p>
+</div>
+<div class="flex gap-4">
+<span class="text-error font-headline text-xl">03</span>
+<p class="text-on-surface-variant">Inconsistent UI across legacy tracking systems confusing operatives.</p>
+</div>
+</div>
+</div>
+<!-- Proposed Solution: Asymmetric Column -->
+<div class="md:col-span-6 bg-primary-container/10 p-10 border-l border-primary/30">
+<h2 class="font-headline text-3xl font-black uppercase tracking-tight mb-8 text-primary">Proposed Solution</h2>
+<ul class="space-y-4">
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="text-on-surface">Unified neural pipeline for sub-millisecond data ingestion.</span>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="text-on-surface">AI-driven predictive modeling for inventory replenishment.</span>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="text-on-surface">Brutalist, high-contrast HUD for immediate visual recognition.</span>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="text-on-surface">Cross-terminal synchronization for global field operations.</span>
+</li>
+</ul>
+</div>
+<!-- MVP Features: Large Checklist Area -->
+<div class="md:col-span-12 bg-surface-container-high p-12">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 border-b border-primary/20 pb-6">
+<h2 class="font-headline text-4xl font-black uppercase tracking-tighter">MVP <span class="text-primary">Features</span></h2>
+<span class="font-label text-xs uppercase tracking-widest text-on-surface-variant opacity-50">Release Phase: v0.9.4-ALPHA</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="space-y-6">
+<h3 class="font-headline text-sm uppercase tracking-widest text-primary-fixed-dim">Core Engine</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">check_box</span>
+<span class="font-body text-sm uppercase tracking-wider">Live Inventory Pulse</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">check_box</span>
+<span class="font-body text-sm uppercase tracking-wider">Transaction Heatmaps</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">check_box</span>
+<span class="font-body text-sm uppercase tracking-wider">Agent Logic Controller</span>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<h3 class="font-headline text-sm uppercase tracking-widest text-primary-fixed-dim">Intelligence Layer</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">check_box</span>
+<span class="font-body text-sm uppercase tracking-wider">Predictive Stock Alerts</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">check_box</span>
+<span class="font-body text-sm uppercase tracking-wider">Anomaly Detection Hub</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">check_box</span>
+<span class="font-body text-sm uppercase tracking-wider">Sentiment Analysis Node</span>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<h3 class="font-headline text-sm uppercase tracking-widest text-primary-fixed-dim">Interface HUD</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">check_box</span>
+<span class="font-body text-sm uppercase tracking-wider">Dark Matrix Dashboard</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">check_box</span>
+<span class="font-body text-sm uppercase tracking-wider">Mobile Operative View</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">check_box</span>
+<span class="font-body text-sm uppercase tracking-wider">SVG Data Viz System</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Next Steps & Call to Action -->
+<div class="md:col-span-12 bg-secondary-container p-12 flex flex-col md:flex-row items-center justify-between gap-8 group">
+<div class="max-w-xl">
+<h2 class="font-headline text-4xl font-black uppercase tracking-tighter text-on-secondary-container mb-4">Ready for Deployment?</h2>
+<p class="text-on-secondary-container/80 font-body">The next phase involves multi-region stress testing and integration with regional supply chain API nodes. Join the redacted pilot program.</p>
+</div>
+<button class="bg-surface text-on-surface px-10 py-5 font-headline uppercase text-sm font-bold tracking-[0.2em] hover:bg-black hover:text-secondary transition-all flex items-center gap-3">
+                    Initiate Phase Two
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer Anchor -->
+<footer class="bg-[#131313] flex flex-col items-center w-full py-12 px-6 border-t border-[#2a2a2a] shadow-[0_-1px_0_0_rgba(255,77,0,0.3)]">
+<div class="text-xl font-black text-[#ff0080] mb-4 font-headline uppercase tracking-tighter hover:text-[#ff4d00] transition-colors cursor-pointer">Vibe Coding</div>
+<div class="flex gap-8 mb-8">
+<a class="font-['Inter'] text-xs tracking-widest uppercase text-gray-500 hover:text-[#ff4d00] transition-colors" href="#">Projects</a>
+<a class="font-['Inter'] text-xs tracking-widest uppercase text-gray-500 hover:text-[#ff4d00] transition-colors" href="#">Blog</a>
+<a class="font-['Inter'] text-xs tracking-widest uppercase text-gray-500 hover:text-[#ff4d00] transition-colors" href="#">About</a>
+<a class="font-['Inter'] text-xs tracking-widest uppercase text-gray-500 hover:text-[#ff4d00] transition-colors" href="#">Privacy</a>
+<a class="font-['Inter'] text-xs tracking-widest uppercase text-gray-500 hover:text-[#ff4d00] transition-colors" href="#">Terms</a>
+</div>
+<div class="font-['Inter'] text-xs tracking-widest uppercase text-gray-600">© 2024 Vibe Coding. All rights reserved.</div>
+</footer>
+</body></html>
