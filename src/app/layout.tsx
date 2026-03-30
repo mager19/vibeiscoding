@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Lexend } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { siteConfig } from '@/config/site.config'
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main id="main-content">{children}</main>
         <Footer />
+        <Analytics />
         {siteConfig.features.analytics && siteConfig.analytics.websiteId && (
           <script
             defer
