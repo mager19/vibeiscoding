@@ -63,9 +63,21 @@ export function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-10 pt-8 border-t border-outline-variant/10 text-center">
+        <div className="mt-10 pt-8 border-t border-outline-variant/10 text-center flex flex-col gap-2 items-center">
           <p className="text-[10px] font-bold uppercase tracking-ultra text-on-surface-variant/60">
             {es.footer.copyright}
+          </p>
+          <p className="text-[10px] tracking-ultra text-on-surface-variant/70">
+            un proyecto de{' '}
+            <a
+              href="https://www.linkedin.com/in/mager19/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold transition-colors hover:opacity-80"
+              style={{ color: '#e30071' }}
+            >
+              mager19
+            </a>
           </p>
         </div>
       </div>
