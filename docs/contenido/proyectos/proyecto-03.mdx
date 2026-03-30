@@ -1,0 +1,100 @@
+---
+title: "Dashboard de Finanzas Personales con Insights de IA"
+codename: "FINANCE_DASHBOARD"
+slug: "dashboard-finanzas-personales-con-ia"
+level: "intermedio"
+categories: ["AI", "Web", "Productivity"]
+shortDescription: "Pegá tu extracto bancario y obtené un dashboard visual de tus gastos con categorización automática y recomendaciones personalizadas de ahorro."
+heroImage: "/images/projects/dashboard-finanzas-personales-con-ia.jpg"
+techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Recharts", "Anthropic SDK", "Zustand", "Vercel"]
+estimatedTime: "3-4 semanas"
+toolSuggestion: "Claude Code + Claude Sonnet 4.5"
+publishedAt: "2026-03-29"
+featured: false
+---
+
+## Overview
+
+Todos sabemos que "gastamos demasiado en delivery" pero nadie quiere hacer la cuenta de verdad. Las apps de finanzas personales existentes requieren conectar tu cuenta bancaria, instalar una app mobile, o pagar una suscripción mensual — demasiada fricción para algo que debería ser simple.
+
+Este proyecto construye algo diferente: un dashboard web donde pegás el texto de tu extracto bancario (lo copiás del PDF del banco o de tu home banking), la IA categoriza cada transacción automáticamente, y en segundos tenés gráficos de torta, barras de tendencia mensual, y un análisis escrito de tus patrones de gasto con recomendaciones concretas.
+
+Sin cuentas bancarias conectadas. Sin datos en servidores externos. Todo procesa en el cliente y en tu propio deploy de Vercel. La privacidad es parte del diseño.
+
+Técnicamente, este proyecto te hace manejar estado complejo del lado del cliente, visualizaciones de datos con Recharts, y el patrón de "parse → enrich → visualize" que aparece en docenas de apps de productividad modernas.
+
+## El Problema
+
+El ciclo de la ignorancia financiera es conocido: no querés ver los números, entonces no los mirás, entonces no podés cambiar nada. Las apps que intentan resolver esto tienen sus propios problemas — requieren acceso a tu cuenta bancaria (un riesgo de seguridad real), o son tan complicadas que requieren más esfuerzo que hacerlo en Excel.
+
+Lo que la mayoría de la gente necesita no es una app de finanzas completa. Necesita una respuesta rápida a "¿en qué carajo me gasté la plata este mes?" — y esa respuesta debería tardar 30 segundos en obtenerse, no 3 horas de setup.
+
+## Solución Propuesta
+
+El proyecto tiene tres fases de datos claramente separadas:
+
+**Ingesta**: Un textarea donde el usuario pega el extracto bancario en texto plano (o un uploader de CSV para bancos que los exportan). No hay formato fijo — Claude va a parsear cualquier formato razonable.
+
+**Procesamiento con IA**: El texto crudo se envía a Claude con un prompt que pide que devuelva un JSON con cada transacción categorizada. Las categorías son predefinidas (Alimentación, Transporte, Entretenimiento, Servicios, Salud, etc.) pero el modelo asigna cada transacción a la categoría correcta basándose en el descripción. Un segundo prompt genera el análisis narrativo con insights y recomendaciones.
+
+**Visualización**: Zustand maneja el estado global de las transacciones procesadas. Recharts renderiza gráficos de torta (distribución por categoría), barras (gasto semanal), y líneas (tendencia del saldo). El análisis de la IA aparece como un panel de texto con formato.
+
+## Tech Stack
+
+- **Next.js 14**: Base del proyecto. Las API routes manejan las llamadas a Anthropic de forma segura.
+- **TypeScript**: El schema de transacciones categorizado es perfectamente tipeable. Los tipos te van a salvar de bugs en la visualización.
+- **Recharts**: La librería de charts más popular para React. Altamente customizable con Tailwind, excelente documentación, sin dependencias de D3 directo.
+- **Zustand**: State management liviano para el estado global de las transacciones. Mucho más simple que Redux para este caso de uso.
+- **Anthropic SDK**: El corazón de la categorización. Claude maneja la variabilidad de los formatos bancarios (distintos bancos, distintos países) mejor que cualquier regla hardcodeada.
+- **Tailwind CSS**: Componentes del dashboard con un diseño claro y enfocado en datos.
+- **Vercel**: Deploy simple, API routes incluidas.
+
+## Features del MVP
+
+- [ ] Textarea para pegar extracto bancario en texto libre (o CSV)
+- [ ] Categorización automática de transacciones con IA
+- [ ] Tabla de transacciones editable (para corregir categorías incorrectas)
+- [ ] Gráfico de torta: distribución del gasto por categoría
+- [ ] Gráfico de barras: gasto semanal en las últimas 4 semanas
+- [ ] Panel de resumen: total gastado, total ingresado, saldo neto
+- [ ] Análisis narrativo de la IA con 3-5 insights personalizados
+- [ ] Recomendaciones de ahorro basadas en los patrones detectados
+- [ ] Exportar resumen como imagen (screenshot del dashboard)
+- [ ] Modo demo con datos ficticios para probar sin pegar datos reales
+
+## Pasos Sugeridos
+
+1. **Setup y estructura**: Proyecto Next.js + Zustand + Recharts. Definir los tipos TypeScript para `Transaction`, `Category`, y `AnalysisResult`.
+
+2. **Crear el modo demo**: Antes de tocar la IA, creá un archivo con 20-30 transacciones ficticias ya categorizadas. Esto te permite construir y probar la visualización sin gastar tokens.
+
+3. **Construir el dashboard visual**: Con los datos del modo demo, construí todos los componentes visuales — la tabla, el gráfico de torta, el de barras, los totales. Pedile a Claude Code que los genere uno por uno con el estilo que querés.
+
+4. **Diseñar el schema de categorización**: Define en TypeScript la estructura exacta del JSON que Claude debe devolver. Cada transacción tiene: fecha, descripción original, monto, categoría asignada, confianza de la categorización.
+
+5. **Crear el prompt de categorización**: Un prompt que recibe el texto del extracto y devuelve el JSON. Probalo en Claude.ai primero con tus propios extractos reales para ver qué tan bien categoriza antes de integrarlo.
+
+6. **Integrar la API route**: Conectar el textarea → API route → Claude → Zustand → visualización.
+
+7. **Crear el prompt de análisis narrativo**: Un segundo prompt que recibe el resumen de gastos ya categorizados y genera los insights. Este prompt es más abierto y creativo.
+
+8. **Tabla editable**: Permite al usuario corregir categorías. Cuando cambia una categoría, los gráficos se actualizan en tiempo real via Zustand.
+
+9. **Export y polish**: Botón de export, modo demo, loading states, deploy.
+
+## Lo que vas a aprender
+
+- State management con Zustand: stores, actions, y reactivity en componentes
+- Visualización de datos con Recharts: customización, responsive, tooltips
+- El patrón "parse → categorize → visualize" aplicable a docenas de proyectos
+- Cómo manejar outputs de IA no deterministas: validación, fallbacks, corrección manual
+- Diseño de dashboards: jerarquía visual, legibilidad de datos, density de información
+- Privacidad by design: procesar datos sensibles sin persistirlos en servidores
+
+## Recursos y Referencias
+
+- [Recharts — Documentación oficial](https://recharts.org/en-US/guide)
+- [Zustand — Getting Started](https://zustand.docs.pmnd.rs/getting-started/introduction)
+- [Anthropic — JSON mode y outputs estructurados](https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency)
+- [Patrones de diseño para dashboards de datos](https://www.nngroup.com/articles/dashboard-design/)
+- [html2canvas — Para exportar el dashboard como imagen](https://html2canvas.hertzen.com/)

@@ -1,0 +1,196 @@
+---
+title: "Motor de Búsqueda Semántica para tu Segunda Mente"
+codename: "SEMANTIC_SECOND_BRAIN"
+slug: "motor-busqueda-semantica-segunda-mente"
+level: "avanzado"
+categories: ["AI", "Productivity", "Web"]
+shortDescription: "Conecta tus notas de Obsidian o Notion y pregúntale cualquier cosa en lenguaje natural. La búsqueda semántica encuentra conexiones que la búsqueda por texto nunca encontraría."
+heroImage: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80"
+techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Anthropic SDK", "OpenAI Embeddings API", "Supabase (pgvector)", "Vercel"]
+estimatedTime: "4-6 semanas"
+toolSuggestion: "Claude Code + Claude Sonnet 4.5"
+publishedAt: "2026-03-29"
+featured: true
+---
+
+## Overview
+
+Tienes cientos de notas. Sabes que ahí está la idea que necesitas — algo que escribiste hace seis meses sobre sistemas de incentivos, o esa cita de un libro que conecta perfectamente con el problema que estás resolviendo ahora. Pero la búsqueda por texto solo encuentra coincidencias exactas. "incentivos" no encuentra "motivación intrínseca". "flujo de caja" no encuentra "runway".
+
+La búsqueda semántica cambia eso. En lugar de buscar palabras, busca **significado**. Esta app toma tus notas, las convierte en vectores numéricos que capturan su significado semántico, y cuando preguntas algo en lenguaje natural, encuentra las notas más cercanas conceptualmente — aunque no compartan ni una sola palabra con tu búsqueda.
+
+El resultado es un sistema RAG (Retrieval-Augmented Generation) personalizado: no solo encuentras las notas relevantes, sino que Claude las lee y sintetiza una respuesta que conecta los puntos entre tus propios escritos. Como tener una conversación con la versión más informada de ti mismo.
+
+Este es el proyecto más técnicamente ambicioso del sitio. Embeddings, vector databases, RAG, ingesta de archivos, chunking de documentos — las mismas tecnologías que usan los sistemas de IA de producción más sofisticados del mundo. Y tú lo vas a construir con vibe coding.
+
+## El Problema
+
+El knowledge management tiene una paradoja clásica: cuanto más notas tomas, más difícil se vuelve encontrar lo que necesitas. Los sistemas de tags y carpetas no escalan. La búsqueda por texto es literalista. Y los resúmenes manuales toman tiempo que no tienes.
+
+Las herramientas de "chat con tus documentos" que existen o son servicios cloud que tienen acceso a tus notas más privadas, o son proyectos técnicos complejos que requieren configurar tu propio servidor. No hay mucho en el medio que sea fácil de deployar y completamente bajo tu control.
+
+El otro problema es la pérdida de conexiones. Una nota que escribiste hace dos años podría ser exactamente el contexto que necesitas hoy, pero nunca la vas a encontrar porque ni recuerdas que existe. La búsqueda semántica resuelve el descubrimiento, no solo la recuperación.
+
+## Solución Propuesta
+
+La arquitectura tiene tres componentes principales que trabajan juntos:
+
+**Pipeline de Ingesta**: El usuario sube su carpeta de notas (exportadas de Obsidian como .md, de Notion como .md, o cualquier carpeta de archivos de texto). El sistema procesa cada archivo: lo divide en chunks de ~500 tokens con overlapping para preservar contexto en los bordes, genera un embedding para cada chunk usando la API de embeddings de OpenAI (text-embedding-3-small — barata y precisa), y almacena los chunks + embeddings en Supabase con la extensión pgvector.
+
+**Motor de Búsqueda**: Cuando el usuario hace una pregunta, el sistema genera un embedding de la query, busca en pgvector los N chunks más similares semánticamente (cosine similarity), y devuelve los resultados ordenados por relevancia. La búsqueda tarda menos de 200ms.
+
+**Capa de Síntesis (RAG)**: Los chunks recuperados se envían a Claude como contexto junto con la pregunta original. Claude lee los fragmentos relevantes de tus notas y genera una respuesta que cita y conecta tus propios escritos. Las citas incluyen el nombre del archivo fuente para que puedas ir directamente a la nota original.
+
+## Tech Stack
+
+- **Next.js 14 (App Router)**: Framework base. Server components para la búsqueda, client components para la UI interactiva.
+- **TypeScript**: Tipos estrictos para el schema de documentos en la DB, los resultados de búsqueda, y las citas. Fundamental en un proyecto de esta complejidad.
+- **OpenAI Embeddings API (text-embedding-3-small)**: El mejor ratio precio/calidad para embeddings en producción. Genera vectores de 1536 dimensiones que capturan semántica con gran precisión.
+- **Supabase + pgvector**: Base de datos PostgreSQL managed con la extensión pgvector. Búsqueda vectorial nativa con índices HNSW para queries sub-100ms incluso con miles de vectores. El tier gratuito de Supabase es suficiente para miles de notas.
+- **Anthropic SDK**: Claude Sonnet para la síntesis RAG. La capacidad de síntesis y citación de Claude es superior para este caso de uso específico.
+- **Vercel**: Deploy del frontend + API routes. Las API routes de Vercel tienen un timeout de 60s que es suficiente para el pipeline de ingesta de archivos individuales.
+
+## Features del MVP
+
+- [ ] Upload de carpeta de archivos .md o .txt (drag & drop o selector)
+- [ ] Pipeline de ingesta: chunking, embedding, almacenamiento en pgvector
+- [ ] Barra de progreso durante la ingesta con número de chunks procesados
+- [ ] Búsqueda semántica en lenguaje natural con resultados en tiempo real
+- [ ] Vista de resultados: fragmentos relevantes con nombre del archivo fuente y score de similaridad
+- [ ] Síntesis RAG: respuesta de Claude que cita tus propias notas
+- [ ] Referencias clickeables (el nombre del archivo, no el link — el archivo vive en local)
+- [ ] Historial de búsquedas de la sesión
+- [ ] Dashboard de la base de conocimiento: cantidad de archivos, chunks, y tamaño total indexado
+- [ ] Botón de re-indexar (para cuando agrega nuevas notas)
+- [ ] Búsqueda tradicional por texto como fallback
+
+## Pasos Sugeridos
+
+1. **Setup de Supabase**: Crear proyecto en Supabase, habilitar la extensión pgvector, y crear la tabla `chunks` con columnas para el contenido, el embedding (vector), el archivo fuente, y metadata.
+
+2. **Implementar el chunker**: Función que toma el texto de un archivo y lo divide en chunks de ~500 tokens con 50 tokens de overlap entre chunks. Pedile a Claude Code que lo implemente con la librería `tiktoken` para contar tokens con precisión.
+
+3. **Pipeline de embedding**: API route que recibe el texto de un chunk, llama a la API de embeddings de OpenAI, y almacena el resultado en Supabase. Implementar rate limiting para no superar los límites de la API.
+
+4. **UI de upload e ingesta**: Componente de drop zone, lectura de archivos en el browser con la File API, y llamadas en batch al pipeline de embedding con progress tracking.
+
+5. **Función de búsqueda semántica**: Query que genera el embedding de la búsqueda y ejecuta la búsqueda por similitud en pgvector con `<=>` (cosine distance). Ajustar el número de resultados (K) y el threshold de similaridad.
+
+6. **UI de resultados de búsqueda**: Cards para cada resultado con el fragmento del texto, el nombre del archivo, y el score de similaridad. Resaltar la porción más relevante del chunk.
+
+7. **Integrar Claude para RAG**: API route que toma la query + los chunks recuperados y pide a Claude que sintetice una respuesta citando las fuentes. El prompt es clave: hay que pedirle que cite de forma específica y que distinga entre lo que está en las notas y lo que infiere.
+
+8. **Vista de síntesis**: Panel de respuesta de Claude con las citas formateadas como bloques referenciables. Separar visualmente "lo que encontré en tus notas" de la síntesis.
+
+9. **Dashboard de base de conocimiento y botón de re-indexar**: Stats básicos y lógica para agregar nuevos archivos sin re-indexar todo.
+
+## Lo que vas a aprender
+
+- Embeddings vectoriales: qué son, cómo se generan, y por qué capturan significado semántico
+- pgvector: búsqueda vectorial en PostgreSQL, índices HNSW, y cosine similarity
+- RAG (Retrieval-Augmented Generation): el patrón más usado en aplicaciones de IA de producción
+- Chunking de documentos: estrategias de división, overlapping, y cómo afecta la calidad de los resultados
+- File API del browser: leer archivos locales en el cliente sin enviarlos a ningún servidor hasta necesitarlo
+- Supabase: setup, configuración de extensiones, RLS policies básicas
+- Rate limiting de APIs: cómo procesar en batch sin superar los límites de requests por minuto
+- La diferencia fundamental entre búsqueda léxica (texto exacto) y búsqueda semántica (significado)
+
+## Checklist de Buenas Prácticas
+
+### Seguridad
+- [ ] Implementar autenticación antes de exponer el endpoint de búsqueda si la base de conocimiento contiene notas privadas — sin autenticación, cualquiera con la URL puede consultar tus documentos
+- [ ] Nunca exponer la API key de Supabase con permisos de escritura en el cliente — usa solo la `anon key` con Row Level Security (RLS) correctamente configurada para operaciones de lectura
+- [ ] Validar el tipo y tamaño de los archivos antes de procesarlos: verificar extensión `.md` o `.txt` y limitar el tamaño máximo por archivo para evitar agotar la cuota de embeddings con archivos inesperados
+- [ ] Verificar que el usuario tiene permiso de acceso a los documentos antes de indexarlos si en el futuro escala a múltiples usuarios — el pipeline de ingesta no debería indexar contenido de otros usuarios
+
+### Rendimiento
+- [ ] Implementar caché para queries frecuentes: si el mismo usuario busca "notas sobre productividad" varias veces, devolver el resultado cacheado en lugar de generar un nuevo embedding y consultar pgvector
+- [ ] Limitar el número de chunks recuperados en cada búsqueda (top-k entre 3 y 10 es suficiente) — recuperar demasiados chunks llena el context window del modelo y aumenta la latencia y el costo
+- [ ] Procesar documentos grandes en chunks durante la ingesta, no como una sola llamada — documentos de más de 8.000 tokens enviados de una vez a la API de embeddings pueden fallar o producir vectores de baja calidad
+- [ ] Procesar los embeddings en batch durante la ingesta en lugar de uno por uno — la API de OpenAI acepta hasta 2.048 inputs por request, lo que reduce drásticamente el tiempo total de indexación
+
+### Arquitectura y Estructura
+- [ ] Separar claramente el pipeline de indexación (ingesta de documentos) del pipeline de consulta (búsqueda + síntesis) — son dos flujos independientes con responsabilidades distintas
+- [ ] Definir qué metadatos se guardan junto a cada chunk: como mínimo, el nombre del archivo fuente, el número de chunk dentro del archivo, y la fecha de indexación
+- [ ] Implementar un fallback explícito cuando la búsqueda semántica no devuelve resultados con suficiente similitud — el modelo debe responder "no encontré información relevante en tus notas" en lugar de inventar una respuesta (alucinación)
+- [ ] El prompt de síntesis RAG debe instruir explícitamente al modelo a citar solo información presente en los chunks recuperados y a distinguir entre lo que dice el documento y lo que infiere
+
+### Antes de publicar (MVP Checklist)
+- [ ] Verificar que el sistema responde únicamente con información presente en los documentos indexados — probar con preguntas cuya respuesta no está en las notas y confirmar que el modelo admite no saber
+- [ ] Confirmar que las fuentes están citadas correctamente en la respuesta con el nombre del archivo de origen, para que el usuario pueda ir a la nota original
+- [ ] Probar la búsqueda semántica con preguntas en lenguaje natural que no contienen palabras exactas de los documentos — si solo funciona con palabras clave exactas, el embedding no está funcionando bien
+- [ ] Verificar que agregar nuevos documentos al sistema los indexa correctamente sin necesidad de re-indexar los documentos existentes
+
+## Recursos y Referencias
+
+- [pgvector — Documentación oficial](https://github.com/pgvector/pgvector)
+- [Supabase — AI & Vectors Guide](https://supabase.com/docs/guides/ai)
+- [OpenAI Embeddings API](https://platform.openai.com/docs/guides/embeddings)
+- [RAG conceptual overview — Anthropic](https://www.anthropic.com/news/contextual-retrieval)
+- [Anthropic — Contextual Retrieval (técnica avanzada de chunking)](https://www.anthropic.com/news/contextual-retrieval)
+- [LangChain Text Splitters — Para entender estrategias de chunking](https://python.langchain.com/docs/concepts/text_splitters/)
+- [Simon Willison — Embeddings: What they are and why they matter](https://simonwillison.net/2023/Oct/23/embeddings/)
+- [tiktoken — Tokenizer de OpenAI para contar tokens en JavaScript](https://github.com/dqbd/tiktoken)
+
+## Habilidades que Desarrollas
+
+- **Embeddings y búsqueda vectorial**: Convertir texto en vectores numéricos y buscar por similitud semántica — la tecnología detrás de los sistemas RAG modernos.
+- **RAG (Retrieval Augmented Generation)**: El patrón de recuperar contexto relevante antes de generar una respuesta. Es el fundamento de la mayoría de los asistentes de IA empresariales actuales.
+- **Bases de datos vectoriales**: Usar Pinecone, Supabase pgvector, o ChromaDB — tecnología que está en el centro de los proyectos de IA más avanzados.
+- **Ingesta y procesamiento de datos**: Construir pipelines para convertir documentos en embeddings almacenables y consultables.
+- **Gestión de contexto en LLMs**: Saber cuánto contexto pasar, cómo formatearlo, y cómo evitar el "context stuffing".
+
+## Impacto en tu Carrera
+
+El conocimiento de RAG y embeddings es uno de los skills más escasos y mejor pagados en el mercado de IA hoy. La mayoría de proyectos de "IA empresarial" son variantes de este patrón: documentos internos, bases de conocimiento, asistentes con memoria.
+
+Tener un proyecto de búsqueda semántica en tu portfolio te diferencia inmediatamente de developers que solo saben llamar a APIs de LLMs. Es la diferencia entre "uso IA" y "entiendo cómo funciona la IA".
+
+## Antes de Empezar
+
+- **Necesitas**: API key de Anthropic (para la síntesis RAG) y API key de OpenAI (para embeddings). Para la base de datos vectorial, Supabase tiene un free tier con pgvector integrado — la opción más simple para empezar.
+- **Volumen de prueba**: Reúne 20-50 notas o documentos propios antes de empezar. Tener datos reales hace la diferencia en cómo evalúas si el sistema funciona bien.
+- **Concepto clave a entender primero**: Qué es un embedding (un vector numérico que representa el significado de un texto). Pídele a Claude que te lo explique con una analogía antes de empezar a construir.
+- **Tiempo real**: 4-6 semanas. Este es el proyecto más técnico del sitio. No te apresures — cada fase tiene su propia curva de aprendizaje.
+- **Nota sobre costos**: Los embeddings de OpenAI (text-embedding-3-small) tienen costo por token. Para el volumen de un MVP personal, el costo es mínimo (menos de $1), pero tenlo en cuenta. Si preferís alternativas, OpenAI Embeddings, Cohere Embed o Voyage AI tienen precios similares.
+
+## Cómo Abordarlo
+
+### Divide el proyecto en fases
+
+**Fase 1 — Setup y base de datos vectorial (2-3 horas):** Crear el proyecto, configurar Supabase con la extensión pgvector (o tu base de datos vectorial preferida). Verificar que puedes insertar y consultar vectores básicos antes de agregar la lógica de embeddings.
+
+**Fase 2 — Pipeline de ingesta (3-4 horas):** Script o endpoint que toma un texto, lo convierte en embedding usando la API de embeddings de tu proveedor elegido, y lo almacena con metadatos. Probar con 5-10 documentos.
+
+**Fase 3 — Búsqueda semántica (2-3 horas):** Endpoint que toma una consulta, la convierte en embedding, y devuelve los documentos más similares por cosine similarity.
+
+**Fase 4 — Capa RAG (3-4 horas):** Usar los documentos recuperados como contexto para que el LLM genere una respuesta fundamentada en tu contenido.
+
+**Fase 5 — Interfaz de búsqueda (2-3 horas):** UI simple: input de búsqueda, lista de resultados con score de relevancia, respuesta generada.
+
+### ¿Agente o modo chat?
+
+**Modo agente** para Fases 1-2 (setup e infraestructura). **Modo chat** para Fases 3-4 — el RAG requiere muchas iteraciones sobre los prompts de síntesis, y modo chat permite ajustar rápido.
+
+### ¿TUI o editor?
+
+- **Claude Code:** Excelente para este proyecto. La complejidad de infraestructura (configurar pgvector, escribir los scripts de ingesta) se maneja mejor con un agente que tiene acceso al sistema de archivos.
+- **Cursor:** Igualmente válido, especialmente si ya tienes un proyecto Supabase configurado.
+
+### Alternativas de base de datos vectorial
+
+- **Supabase + pgvector:** La más simple para empezar, especialmente si ya usas Supabase.
+- **Pinecone:** Serverless, sin infraestructura que gestionar, free tier disponible.
+- **ChromaDB:** Local, sin costo, ideal para prototipar.
+- **Weaviate:** Más completo, mejor para proyectos que escalan.
+
+### Prompt inicial sugerido
+
+```
+Construye un sistema de búsqueda semántica (RAG) en Next.js que:
+1. Tenga un endpoint de ingesta que recibe texto, lo convierte en embeddings usando [API de embeddings de tu elección], y los almacena en Supabase con pgvector.
+2. Tenga un endpoint de búsqueda que convierte la consulta en embedding y retorna los 5 documentos más similares por cosine similarity.
+3. Tenga un endpoint de síntesis que usa esos documentos como contexto para generar una respuesta con [tu LLM].
+4. Tenga una UI con un input de búsqueda, los resultados con score de relevancia, y la respuesta generada.
+Configura las API keys como variables de entorno.
+```

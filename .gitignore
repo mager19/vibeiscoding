@@ -37,3 +37,10 @@ next-env.d.ts
 # Agent skills (no van al repo - se instalan localmente)
 .agents/
 skills-lock.json
+
+# Archivos binarios grandes (usar almacenamiento externo)
+*.mp4
+*.mov
+*.avi
+*.mkv
+diseño/

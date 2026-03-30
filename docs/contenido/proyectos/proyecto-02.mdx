@@ -1,0 +1,101 @@
+---
+title: "Analizador de Contratos con IA"
+codename: "CONTRACT_ANALYZER"
+slug: "analizador-de-contratos-con-ia"
+level: "intermedio"
+categories: ["AI", "Productivity", "Web"]
+shortDescription: "Sube cualquier contrato en PDF y recibe un análisis claro: cláusulas riesgosas, puntos clave, y preguntas que deberías hacerle a tu abogado."
+heroImage: "/images/projects/analizador-de-contratos-con-ia.jpg"
+techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Anthropic SDK", "pdf-parse", "Vercel"]
+estimatedTime: "2-3 semanas"
+toolSuggestion: "Claude Code + Claude Sonnet 4.5"
+publishedAt: "2026-03-29"
+featured: true
+---
+
+## Overview
+
+Los contratos están escritos para proteger a quien los redacta, no a quien los firma. El lenguaje legal es denso por diseño — lleno de cláusulas que pasás por alto cuando querés cerrar un deal rápido. Freelancers que firman sin leer. Inquilinos que no entienden lo que están aceptando. Founders que no notan la cláusula de no competencia enterrada en la página 11.
+
+Este proyecto te da el poder de cambiar eso: una app web donde subís cualquier contrato en PDF y Claude lo analiza en segundos. Te devuelve un resumen ejecutivo, identifica las cláusulas que merecen atención, detecta patrones de lenguaje desfavorables, y genera una lista de preguntas inteligentes para hacerle a un abogado antes de firmar.
+
+No reemplaza al abogado — lo potencia. Y te da a vos, como parte que firma, la información para negociar desde una posición informada.
+
+Técnicamente, es un proyecto que te hace dominar el manejo de archivos en Next.js, el procesamiento de texto largo, y el arte de diseñar prompts estructurados que devuelven outputs formateados y consistentes.
+
+## El Problema
+
+Hay una asimetría de información brutal en cada contrato que firmás. La parte que lo redacta tardó horas en construirlo con asesoría legal. Vos tenés 10 minutos para leerlo y la presión implícita de parecer razonable si preguntás demasiado.
+
+Los servicios de revisión legal son caros y lentos. Las herramientas de IA genéricas pueden analizar texto, pero no están optimizadas para el contexto legal y no ofrecen una experiencia de usuario pensada para este caso de uso específico.
+
+Existe un espacio enorme entre "firmalo sin leer" y "contratá un abogado" — y este proyecto vive ahí.
+
+## Solución Propuesta
+
+El flujo tiene tres etapas bien definidas:
+
+**Extracción**: El usuario sube un PDF. Una API route en Next.js recibe el archivo con `FormData`, lo procesa con `pdf-parse` para extraer el texto plano, y limpia el output (eliminando headers/footers repetidos, normalizando espacios).
+
+**Análisis**: El texto extraído se envía a Claude con un prompt estructurado que pide un análisis en formato JSON con secciones predefinidas: resumen ejecutivo, cláusulas destacadas (con severidad: informativa / atención / riesgo), puntos fuertes del contrato, y preguntas sugeridas. El formato JSON garantiza que el output sea parseable y predecible.
+
+**Presentación**: El frontend parsea el JSON y renderiza cada sección con componentes visuales distintos — colores por severidad, íconos, acordeones para las cláusulas largas. La experiencia final es más parecida a un informe de auditoría que a un dump de texto.
+
+## Tech Stack
+
+- **Next.js 14 (App Router)**: Manejo de archivos con API routes y `FormData`. El App Router facilita el manejo de estados de loading durante el procesamiento.
+- **TypeScript**: Tipos estrictos para el schema del análisis JSON — fundamental para que el frontend confíe en la estructura del response.
+- **pdf-parse**: Librería Node.js robusta para extraer texto de PDFs. Simple, sin dependencias de binarios externos, funciona bien en Vercel.
+- **Anthropic SDK**: Claude Sonnet es ideal para este caso — razonamiento legal requiere capacidad de síntesis y matices que los modelos más pequeños no manejan bien.
+- **Tailwind CSS**: Cards con colores semánticos (rojo/amarillo/verde) para las cláusulas por severidad.
+- **Vercel**: Deploy con soporte nativo para API routes que manejan `multipart/form-data`.
+
+## Features del MVP
+
+- [ ] Upload de archivos PDF con drag & drop o selector de archivo
+- [ ] Extracción del texto del PDF en el servidor
+- [ ] Análisis estructurado con Claude que devuelve JSON con secciones fijas
+- [ ] Resumen ejecutivo del contrato (tipo, partes, duración, objeto)
+- [ ] Lista de cláusulas destacadas con nivel de severidad (informativa / atención / riesgo)
+- [ ] Sección de "Preguntas para tu abogado" generadas automáticamente
+- [ ] Visualización con colores semánticos por nivel de riesgo
+- [ ] Indicador de progreso durante el análisis
+- [ ] Manejo de errores: PDF corrupto, PDF con solo imágenes, archivo muy grande
+- [ ] Límite de tamaño de archivo con mensaje claro al usuario
+
+## Pasos Sugeridos
+
+1. **Setup del proyecto**: Crear proyecto Next.js con TypeScript y Tailwind. Instalar `pdf-parse` y el SDK de Anthropic.
+
+2. **Crear el componente de upload**: Pedile a Claude Code un componente con drag & drop, preview del nombre del archivo, y validación de tipo (solo PDF) y tamaño (máx 5MB).
+
+3. **Crear la API route de extracción**: `/app/api/analyze/route.ts` que recibe `FormData`, extrae el archivo, usa `pdf-parse` para obtener el texto, y valida que haya contenido extraído.
+
+4. **Diseñar el schema del análisis**: Antes de escribir el prompt, definí en TypeScript la interfaz del JSON que querés recibir. Ejemplo: `{ summary: string, clauses: Array<{ title, content, severity, explanation }>, questions: string[] }`. Este schema es tu contrato con el modelo.
+
+5. **Construir el prompt de análisis**: Pedile a Claude Code que genere un system prompt para análisis de contratos. Después iterá — probalo con contratos reales y ajustá hasta que el output sea consistente.
+
+6. **Integrar análisis con streaming**: El análisis puede tardar 15-30 segundos para contratos largos. Implementá streaming para mostrar el progreso.
+
+7. **Crear los componentes de resultado**: Tarjeta de resumen ejecutivo, lista de cláusulas con colores por severidad, sección de preguntas. Pedile a Claude Code que los genere uno por uno.
+
+8. **Manejo de errores y edge cases**: PDFs escaneados (sin texto extraíble), contratos en idiomas distintos, archivos muy largos que exceden el context window.
+
+9. **Polish y deploy**: Loading states, animaciones sutiles, deploy en Vercel con `ANTHROPIC_API_KEY` configurada.
+
+## Lo que vas a aprender
+
+- Manejo de archivos en Next.js: upload, procesamiento server-side, validaciones
+- Cómo diseñar prompts que devuelven JSON estructurado y predecible
+- TypeScript avanzado: tipos para schemas de API, discriminated unions para severidad
+- Manejo de context windows: estrategias para contratos que exceden el límite
+- UX para apps de análisis: mostrar resultados complejos de forma scannable
+- Prompting para dominios especializados (legal, médico, financiero) — cómo darle contexto sin hacer al modelo responsable de decisiones profesionales
+
+## Recursos y Referencias
+
+- [pdf-parse en npm](https://www.npmjs.com/package/pdf-parse)
+- [Anthropic — Structured Outputs con JSON](https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency)
+- [Next.js — Handling File Uploads](https://nextjs.org/docs/app/building-your-application/routing/route-handlers#request-body-formdata)
+- [Guía de prompt engineering para análisis de documentos](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/long-context-tips)
+- [Vercel — Limits de tamaño en API routes](https://vercel.com/docs/functions/configuring-functions/payload-size-limit)

@@ -1,0 +1,101 @@
+---
+title: "Mi Primer Chatbot con Personalidad"
+codename: "FIRST_CHATBOT"
+slug: "mi-primer-chatbot-con-personalidad"
+level: "principiante"
+categories: ["AI", "Web"]
+shortDescription: "Construye un chatbot con una personalidad única usando la API de Claude. Tu primera app de IA funcional, lista para mostrar en portfolio."
+heroImage: "/images/projects/mi-primer-chatbot-con-personalidad.jpg"
+techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Anthropic SDK", "Vercel"]
+estimatedTime: "1-2 semanas"
+toolSuggestion: "Claude Code + Claude Sonnet 4.5"
+publishedAt: "2026-03-29"
+featured: true
+---
+
+## Overview
+
+Hay un momento que todo vibe coder recuerda: la primera vez que una app que construiste le responde algo inteligente a alguien. Este proyecto es ese momento.
+
+Vas a construir un chatbot web con una personalidad completamente definida por vos — puede ser un sommelier de vinos sarcástico, un filósofo estoico que responde preguntas de programación, o un asistente de viajes obsesionado con destinos off-the-beaten-path. La IA hace el trabajo pesado; vos defines quién es.
+
+Al terminar tendrás una aplicación web deployada en Vercel, con interfaz de chat en tiempo real, historial de conversación en el navegador, y una URL que podés compartir con cualquier persona. No es un tutorial genérico de "hola mundo" — es una app con identidad propia que refleja tu criterio creativo.
+
+El secreto del proyecto está en el **system prompt**: un bloque de texto donde le decís a Claude exactamente quién es, cómo habla, qué sabe y qué límites tiene. Dominar esa técnica es la base de casi todo lo que vas a construir después en el mundo de la IA.
+
+## El Problema
+
+Cuando alguien empieza en vibe coding, el primer obstáculo no es técnico: es la parálisis de no saber por dónde arrancar. Los tutoriales muestran código aislado, pero nadie te enseña a construir algo completo, desplegado, con una URL real que puedas mostrar.
+
+Además, la mayoría de los ejemplos de "chatbot" son aburridos — un assistant genérico sin carácter. Un chatbot con personalidad es infinitamente más interesante de construir, más fácil de explicar en una entrevista, y mucho más memorable para quien lo usa.
+
+Este proyecto resuelve los dos problemas a la vez: te da un camino claro de principio a fin, y el resultado final tiene carácter propio.
+
+## Solución Propuesta
+
+La arquitectura es deliberadamente simple: una página Next.js con un componente de chat en el cliente, que llama a una API route en el mismo proyecto. Esa API route actúa como proxy hacia la API de Anthropic — esto es importante porque nunca exponés tu API key al navegador.
+
+El flujo es:
+1. Usuario escribe un mensaje en el frontend
+2. El frontend envía el historial de conversación a `/api/chat`
+3. La API route llama a Anthropic con el system prompt + historial
+4. La respuesta se devuelve al frontend con streaming para que aparezca en tiempo real
+
+El historial de conversación vive en `useState` en el cliente — simple, sin base de datos, suficiente para el MVP. El system prompt vive en el servidor y nunca sale al navegador.
+
+## Tech Stack
+
+- **Next.js 14 (App Router)**: Framework full-stack que te da frontend + backend en un solo proyecto. La API route de proxy es nativa.
+- **TypeScript**: Claude Code genera TypeScript mejor que JavaScript. Los tipos te ayudan a entender la estructura de los mensajes de Anthropic.
+- **Tailwind CSS**: Estilizado rápido sin escribir CSS custom. Podés tener una UI decente en minutos.
+- **Anthropic SDK (`@anthropic-ai/sdk`)**: La librería oficial. Maneja streaming, tipos y errores de forma elegante.
+- **Vercel**: Deploy con un comando, HTTPS automático, variables de entorno seguras para tu API key.
+
+## Features del MVP
+
+- [ ] Interfaz de chat con burbujas de mensaje (usuario vs asistente)
+- [ ] System prompt configurable que define la personalidad del bot
+- [ ] Streaming de respuestas (las palabras aparecen una a una, como en ChatGPT)
+- [ ] Historial de conversación durante la sesión
+- [ ] Botón para limpiar la conversación y empezar de cero
+- [ ] Indicador de "escribiendo..." mientras llega la respuesta
+- [ ] Variable de entorno para la API key (nunca hardcodeada)
+- [ ] Deploy funcionando en Vercel con URL pública
+
+## Pasos Sugeridos
+
+1. **Crear el proyecto base**: Pedile a Claude Code que genere un proyecto Next.js con TypeScript y Tailwind. Descripción: "crea un proyecto Next.js 14 con App Router, TypeScript y Tailwind CSS".
+
+2. **Instalar el SDK de Anthropic**: `npm install @anthropic-ai/sdk`. Pedile a Claude Code que cree el archivo `.env.local` con la variable `ANTHROPIC_API_KEY`.
+
+3. **Crear la API route de proxy**: Pedile que cree `/app/api/chat/route.ts`. Describí que debe recibir un array de mensajes y un system prompt, llamar a la API de Claude con streaming, y devolver la respuesta como stream.
+
+4. **Definir la personalidad**: Antes de tocar el frontend, escribí en papel quién es tu chatbot. Nombre, backstory, forma de hablar, temas que domina, cosas que le disgustan. Esto va a ser tu system prompt.
+
+5. **Crear el componente de chat**: Pedile a Claude Code un componente React con el historial de mensajes, el input, y la lógica de llamada a la API. Describí la UI que imaginás.
+
+6. **Conectar streaming**: Pedile que implemente el consumo del stream en el frontend usando `ReadableStream`. Es el paso más técnico, pero Claude Code lo maneja muy bien.
+
+7. **Agregar polish**: Botón de limpiar, indicador de loading, scroll automático al último mensaje, estilos que reflejen la personalidad del bot.
+
+8. **Deploy en Vercel**: Conectar el repo de GitHub a Vercel, configurar la variable de entorno `ANTHROPIC_API_KEY`, y deployar.
+
+9. **Compartir**: Mandá la URL a alguien y mirá su reacción cuando chatea con tu bot.
+
+## Lo que vas a aprender
+
+- Cómo funciona la arquitectura de una app de IA: frontend, API proxy, y LLM
+- Qué es un system prompt y cómo usarlo para controlar el comportamiento de un modelo
+- Cómo manejar streaming de respuestas en Next.js
+- Por qué nunca se expone una API key en el cliente y cómo evitarlo con una API route
+- El ciclo completo de vibe coding: describir → generar → iterar → deployar
+- Variables de entorno y cómo manejar secretos en desarrollo y producción
+- Deploy en Vercel desde cero
+
+## Recursos y Referencias
+
+- [Documentación oficial de la API de Anthropic](https://docs.anthropic.com/en/api/getting-started)
+- [Guía de Mensajes y system prompts de Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts)
+- [Next.js App Router — Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
+- [Vercel — Deploy desde GitHub](https://vercel.com/docs/deployments/git)
+- [SDK de Anthropic para Node.js — Streaming](https://github.com/anthropic-sdk/sdk-python#streaming)

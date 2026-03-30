@@ -1,0 +1,96 @@
+---
+title: "Generador de Campañas de Email con Agentes de IA"
+codename: "EMAIL_CAMPAIGN_AGENT"
+slug: "generador-campanas-email-agentes-ia"
+level: "intermedio"
+categories: ["AI", "Productivity", "Web"]
+shortDescription: "Describí tu producto, tu audiencia y el objetivo de tu campaña. Un sistema multi-agente escribe el asunto, el cuerpo, el CTA y la secuencia de follow-ups completa."
+heroImage: "/images/projects/generador-campanas-email-agentes-ia.jpg"
+techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Anthropic SDK", "React Hook Form", "Vercel"]
+estimatedTime: "2-3 semanas"
+toolSuggestion: "Claude Code + Claude Sonnet 4.5"
+publishedAt: "2026-03-29"
+featured: false
+---
+
+## Overview
+
+Escribir una campaña de email buena es más difícil de lo que parece. No alcanza con que el texto sea correcto — el asunto tiene que lograr el open, el primer párrafo tiene que retener, el cuerpo tiene que convencer, y el CTA tiene que convertir. Y después tenés que hacer todo eso de vuelta para los 3 follow-ups de la secuencia.
+
+Este proyecto construye un generador de campañas multi-agente: una IA que trabaja en etapas, con diferentes "roles" especializados. Un agente analiza el brief del producto. Otro define la estrategia de comunicación. Un tercero escribe los emails. Un cuarto los revisa contra las mejores prácticas de email marketing. El resultado final no es un email genérico — es una secuencia completa, coherente, con voz propia.
+
+Lo más valioso técnicamente es que vas a implementar el patrón de **orquestación de agentes**: múltiples llamadas al LLM en cadena, donde el output de cada paso es el input del siguiente. Este patrón es la base de los sistemas de IA más sofisticados que existen hoy.
+
+## El Problema
+
+Los generadores de contenido genéricos de IA producen emails que suenan genéricos. El problema no es el modelo — es que sin contexto suficiente y sin un proceso estructurado, cualquier LLM va a producir el mismo "Espero que este email te encuentre bien" de siempre.
+
+Por otro lado, los copywriters especializados en email marketing cuestan caro y tienen tiempos de entrega que no se adaptan a la velocidad de ejecución de un equipo chico. Las startups, los freelancers, y los solopreneurs necesitan algo intermedio: una herramienta que les haga las preguntas correctas y produzca algo que realmente funcione.
+
+## Solución Propuesta
+
+El sistema tiene cuatro agentes que se ejecutan en secuencia, con su output visible al usuario en tiempo real:
+
+**Agente 1 — Analista de Brief**: Recibe el formulario del usuario (producto, audiencia, objetivo, tono, restricciones) y produce un documento de brief estructurado. También identifica los pain points de la audiencia y las objeciones que hay que anticipar.
+
+**Agente 2 — Estratega de Secuencia**: Decide cuántos emails tiene la secuencia, cuál es el ángulo de cada uno, y el arco emocional general de la campaña. Define el job de cada email (awareness, consideración, conversión, win-back, etc.).
+
+**Agente 3 — Copywriter**: Escribe cada email de la secuencia según la estrategia definida. Genera 2-3 variantes del asunto para A/B testing. El cuerpo usa la estructura probada: hook, contexto, cuerpo, CTA.
+
+**Agente 4 — Revisor**: Audita cada email contra una checklist de email marketing: personalización, claridad del CTA, longitud apropiada, ratio texto/links, urgencia sin ser spam, coherencia de voz entre emails.
+
+## Tech Stack
+
+- **Next.js 14 (App Router)**: Server components para el formulario, streaming SSE para mostrar el progreso de los agentes en tiempo real.
+- **TypeScript**: Tipos estrictos para el estado de cada agente (`pending | running | complete | error`) y los outputs de cada etapa.
+- **Anthropic SDK con streaming**: Cada agente hace streaming de su output para que el usuario vea el contenido generarse en tiempo real, no espere 30 segundos para ver algo.
+- **React Hook Form**: Formulario multi-paso para el brief inicial. Validación de campos, manejo de errores, excelente DX.
+- **Tailwind CSS**: Timeline visual del progreso de los agentes, cards para cada email de la secuencia.
+- **Vercel**: Deploy con soporte para streaming responses (Server-Sent Events).
+
+## Features del MVP
+
+- [ ] Formulario multi-paso para el brief: producto, audiencia, objetivo, tono, restricciones
+- [ ] Pipeline visual de 4 agentes con estado en tiempo real (pendiente / ejecutando / completo)
+- [ ] Streaming del output de cada agente mientras se genera
+- [ ] Secuencia de 3-5 emails según el objetivo de la campaña
+- [ ] Asunto principal + 2 variantes A/B para cada email
+- [ ] Vista de cada email con asunto, preview text, cuerpo y CTA
+- [ ] Revisión automática con checklist (el agente revisor muestra qué pasó y qué falló)
+- [ ] Exportar la secuencia completa como Markdown o texto plano
+- [ ] Edición inline de cualquier email después de la generación
+
+## Pasos Sugeridos
+
+1. **Diseñar el sistema de agentes en papel**: Antes de escribir código, escribí en un doc los 4 agentes, qué recibe cada uno y qué produce. Define los tipos TypeScript para los inputs y outputs de cada agente.
+
+2. **Crear el formulario multi-paso**: Con React Hook Form, construí el wizard de brief. Paso 1: producto. Paso 2: audiencia. Paso 3: objetivo y tono. Paso 4: restricciones y preferencias.
+
+3. **Implementar el primer agente**: Conectá el formulario a la API route. El Agente 1 recibe el brief y produce el documento estructurado. Verificá que el output tenga la forma que esperás antes de seguir.
+
+4. **Construir el pipeline de agentes**: Crear la lógica de orquestación: ejecutar agentes en secuencia, pasando el output de cada uno como input del siguiente. Manejar errores en cualquier punto de la cadena.
+
+5. **Implementar streaming con SSE**: En lugar de esperar al final, usar Server-Sent Events para ir enviando el output de cada agente al cliente en tiempo real. Esto es lo más técnico del proyecto — pedile a Claude Code que lo implemente.
+
+6. **UI del pipeline**: Componente de timeline que muestra los 4 agentes con íconos de estado. Cuando un agente está corriendo, muestra su output haciéndose. Cuando termina, muestra el resultado completo.
+
+7. **Vista de la secuencia de emails**: Cards para cada email con el asunto, las variantes A/B, el cuerpo formateado, y el resultado de la revisión del Agente 4.
+
+8. **Export y edición inline**: Botón de export a Markdown. Hacer cada sección del email editable (textarea que reemplaza el texto estático al hacer click).
+
+## Lo que vas a aprender
+
+- El patrón de orquestación multi-agente: la técnica más importante del momento en IA aplicada
+- Server-Sent Events (SSE) en Next.js: streaming de datos del servidor al cliente en tiempo real
+- React Hook Form: manejo de formularios complejos multi-paso con validación
+- Cómo diseñar prompts que usan el output de un agente anterior como contexto
+- El concepto de "agentes con roles": dar a cada llamada al LLM una responsabilidad acotada mejora la calidad vs. pedirle todo en un solo prompt
+- Manejo de estados de loading complejos: múltiples procesos asíncronos en paralelo o en secuencia
+
+## Recursos y Referencias
+
+- [Anthropic — Building Effective Agents](https://www.anthropic.com/research/building-effective-agents)
+- [React Hook Form — Multi-step Forms](https://react-hook-form.com/advanced-usage#WizardFormFunnel)
+- [MDN — Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)
+- [Email Marketing Copywriting — Guía de Copyhackers](https://copyhackers.com/2015/10/email-copywriting/)
+- [Next.js — Streaming con App Router](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming)

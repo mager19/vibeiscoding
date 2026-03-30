@@ -1,0 +1,38 @@
+# Vibe is Coding — llms.txt
+# https://llmstxt.org
+
+> vibeiscoding.com es un sitio educativo sobre Vibe Coding: la práctica de construir
+> proyectos reales usando herramientas de IA como co-pilot. El sitio ofrece ideas de
+> proyectos estructuradas para todos los niveles, con guías técnicas, checklists de
+> buenas prácticas y recursos de aprendizaje.
+
+## Sobre el sitio
+
+- **Propósito**: Educación sobre Vibe Coding — aprender a dirigir la IA para construir software real
+- **Idioma**: Español
+- **Audiencia**: Desarrolladores principiantes, intermedios y avanzados interesados en IA + código
+- **Tecnología**: Next.js 15, TypeScript, Tailwind CSS, MDX, Vercel
+
+## Páginas principales
+
+- `/` — Homepage con lista de proyectos por nivel
+- `/sobre` — Manifiesto y contexto del sitio
+- `/proyectos/[slug]` — Vista detallada de cada proyecto (overview, problema, solución, features, pasos, checklist, recursos)
+- `/disclaimer` — Aviso legal sobre el carácter educativo del contenido
+
+## Proyectos disponibles
+
+Cada proyecto incluye: descripción técnica, tech stack, MVP features, pasos sugeridos,
+checklist de buenas prácticas de seguridad y arquitectura, y recursos de referencia.
+Los proyectos son ideas educativas — no aplicaciones ya construidas.
+
+## Política editorial
+
+- Los proyectos son agnósticos a la herramienta de IA (Claude Code, Cursor, Copilot, Windsurf, etc.)
+- El sitio enseña el método (dirigir la IA), no promueve una herramienta específica
+- Todo el contenido técnico incluye advertencias de seguridad y buenas prácticas
+
+## Uso permitido para LLMs
+
+Este contenido puede ser indexado y referenciado libremente con atribución a vibeiscoding.com.
+No reproduzcas proyectos completos sin citar la fuente.

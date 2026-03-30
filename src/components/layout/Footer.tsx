@@ -1,0 +1,74 @@
+import Link from 'next/link'
+import { siteConfig } from '@/config/site.config'
+import { es } from '@/lib/i18n/es'
+import { GradientText } from '@/components/ui'
+
+export function Footer() {
+  return (
+    <footer role="contentinfo" className="bg-surface-lowest">
+      {/* Línea superior con gradiente magenta → púrpura → transparente */}
+      <div className="h-px w-full" style={{ background: 'linear-gradient(to right, #e30071, #ac8aff, transparent)' }} />
+
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+
+          {/* Brand */}
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-3">
+              <Link href="/" className="text-xl md:text-2xl font-black uppercase tracking-widest">
+                <GradientText variant="full">{es.site.name}</GradientText>
+              </Link>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#e30071' }} />
+                <span className="w-2 h-2 rounded-full" style={{ background: '#ac8aff' }} />
+                <span className="w-2 h-2 rounded-full" style={{ background: '#8ff5ff' }} />
+              </div>
+            </div>
+            <p className="text-xs text-on-surface-variant/60 tracking-wide font-mono">
+              // {es.footer.tagline}
+            </p>
+          </div>
+
+          {/* Links — gap uniforme en todos los items */}
+          <div className="flex items-center flex-wrap" style={{ gap: '1.25rem' }}>
+            {siteConfig.nav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-xs font-bold uppercase tracking-widest transition-colors hover:opacity-70"
+                style={{ color: '#e30071' }}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href={siteConfig.routes.disclaimer}
+              className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/50 hover:text-on-surface-variant transition-colors"
+            >
+              DISCLAIMER
+            </Link>
+            <Link
+              href={siteConfig.routes.privacy}
+              className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/50 hover:text-on-surface-variant transition-colors"
+            >
+              {es.footer.links.privacy}
+            </Link>
+            <Link
+              href={siteConfig.routes.terms}
+              className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/50 hover:text-on-surface-variant transition-colors"
+            >
+              {es.footer.links.terms}
+            </Link>
+          </div>
+        </div>
+
+        {/* Copyright */}
+        <div className="mt-10 pt-8 border-t border-outline-variant/10 text-center">
+          <p className="text-[10px] font-bold uppercase tracking-ultra text-on-surface-variant/60">
+            {es.footer.copyright}
+          </p>
+        </div>
+      </div>
+    </footer>
+  )
+}

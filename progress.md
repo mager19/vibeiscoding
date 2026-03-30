@@ -8,9 +8,9 @@
 
 | Fase | Descripción | Estado |
 |------|-------------|--------|
-| **0** | Estrategia y contenido — agentes generan sitemap, SEO, proyectos y copy | pendiente |
-| **1** | Scaffolding — setup Next.js, Tailwind, MDX, config y feature flags | pendiente |
-| **2** | Componentes UI — primitivos, layout, homepage, bento grid, about | pendiente |
+| **0** | Estrategia y contenido — agentes generan sitemap, SEO, proyectos y copy | completado ✓ |
+| **1** | Scaffolding — setup Next.js, Tailwind, MDX, config y feature flags | completado ✓ |
+| **2** | Componentes UI — primitivos, layout, homepage, bento grid, about | completado ✓ |
 | **3** | Páginas — integrar contenido MDX, SEO, sitemap, 404 | pendiente |
 | **4** | Integraciones — Mailchimp, Umami, responsive, animaciones, a11y | pendiente |
 | **5** | QA y Deploy — testing, Lighthouse, dominio en Vercel, producción | pendiente |
@@ -21,14 +21,14 @@
 
 | Tarea | Agente | Estado |
 |-------|--------|--------|
-| Sitemap, navegación y user journey | Digital Strategist | pendiente |
-| Roadmap de monetización | Digital Strategist | pendiente |
-| Keywords SEO en español | SEO Specialist | pendiente |
-| URL structure y meta templates | SEO Specialist | pendiente |
-| Schema.org + sitemap/robots specs | SEO Specialist | pendiente |
-| 5 proyectos con contenido completo | Vibe Coding Expert | pendiente |
-| Hero copy, about, microcopy | Copywriter | pendiente |
-| Design system unificado + componentes | UI/Design | pendiente |
+| Sitemap, navegación y user journey | Digital Strategist | completado ✓ |
+| Roadmap de monetización | Digital Strategist | completado ✓ |
+| Keywords SEO en español | SEO Specialist | completado ✓ |
+| URL structure y meta templates | SEO Specialist | completado ✓ |
+| Schema.org + sitemap/robots specs | SEO Specialist | completado ✓ |
+| 5 proyectos con contenido completo | Vibe Coding Expert | completado ✓ |
+| Hero copy, about, microcopy | Copywriter | completado ✓ |
+| Design system unificado + componentes | UI/Design | completado ✓ |
 | Scope MVP + backlog priorizado | Product Manager | pendiente |
 
 ---
