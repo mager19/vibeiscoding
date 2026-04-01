@@ -3,7 +3,7 @@ import { GradientText } from '@/components/ui'
 const faqs = [
   {
     q: '¿Necesito saber programar para empezar con Vibe Coding?',
-    a: 'No es obligatorio, pero ayuda tener lógica básica. Lo más importante es saber describir lo que quieres construir con claridad. La IA se encarga de la sintaxis; tú te encargas de la dirección.',
+    a: 'No necesitas experiencia previa en código, pero sí disposición a pensar con lógica. Lo más importante es saber describir con claridad lo que quieres construir. La IA se encarga de la sintaxis; tú te encargas de la dirección.',
     color: '#8ff5ff',
   },
   {

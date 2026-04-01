@@ -81,32 +81,40 @@ export function AIBuiltSection() {
 
           {/* CELDA B — Agentes (col-span-5) */}
           <div
-            className="md:col-span-5 bg-[#14102c] rounded-md p-6"
+            className="md:col-span-5 bg-[#14102c] rounded-md p-6 md:p-8 flex flex-col justify-between"
             style={{ border: '1px solid rgba(172,138,255,0.2)' }}
           >
-            <p className="text-[10px] font-bold uppercase tracking-ultra mb-4" style={{ color: '#ac8aff' }}>
-              AGENT TEAM
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {agents.map((agent) => {
-                const Icon = agent.icon
-                return (
-                  <span
-                    key={agent.name}
-                    className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-md"
-                    style={{
-                      background: agent.bg,
-                      border: `1px solid ${agent.border}`,
-                      color: agent.color,
-                    }}
-                  >
-                    <Icon size={10} />
-                    {agent.name}
-                  </span>
-                )
-              })}
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-ultra mb-6" style={{ color: '#ac8aff' }}>
+                AGENT TEAM
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                {agents.map((agent, i) => {
+                  const Icon = agent.icon
+                  const isLast = i === agents.length - 1
+                  const isOdd = agents.length % 2 !== 0
+                  return (
+                    <div
+                      key={agent.name}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-md ${isLast && isOdd ? 'col-span-2' : ''}`}
+                      style={{
+                        background: agent.bg,
+                        border: `1px solid ${agent.border}`,
+                      }}
+                    >
+                      <Icon size={16} style={{ color: agent.color }} className="flex-shrink-0" />
+                      <span
+                        className="text-[10px] font-bold uppercase tracking-widest leading-tight"
+                        style={{ color: agent.color }}
+                      >
+                        {agent.name}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
-            <p className="mt-6 text-[10px] text-on-surface-variant/40 uppercase tracking-wider">
+            <p className="mt-6 text-[10px] font-bold text-on-surface-variant/40 uppercase tracking-widest">
               7 agentes especializados coordinados por Claude
             </p>
           </div>

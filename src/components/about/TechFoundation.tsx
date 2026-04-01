@@ -1,29 +1,29 @@
 const pillars = [
   {
-    name: 'ITERACIÓN BRUTAL',
+    name: 'DIRIGIR, NO SOLO GENERAR',
     description:
-      'El MVP no es el destino — es el método. Creemos en lanzar rápido, medir en contexto real y mejorar con evidencia. No en planificar en el vacío hasta que la idea pierda energía.',
+      'El vibe coding no es copiar lo que la IA produce. Es saber qué pedirle, por qué, y qué hacer con el resultado. La dirección siempre es tuya.',
     color: 'text-primary',
     bg: 'bg-primary/5',
   },
   {
     name: 'HERRAMIENTAS CON CRITERIO',
     description:
-      'No recomendamos stack por hype. Cada sugerencia de herramienta en este sitio tiene una razón: costo, velocidad de setup, compatibilidad con flujos de IA, comunidad activa. Si cambiamos de opinión, lo decimos.',
+      'No recomendamos herramientas por hype. Cada sugerencia tiene una razón: costo, velocidad, compatibilidad con flujos de IA, comunidad activa. La herramienta es el medio — el método es lo que importa.',
     color: 'text-secondary',
     bg: 'bg-secondary/5',
   },
   {
-    name: 'CLARIDAD TÉCNICA',
+    name: 'APRENDER MIENTRAS CONSTRUYES',
     description:
-      'El vibe coding no es magia ni atajo. Es un cambio de flujo de trabajo que requiere entender lo que estás haciendo, aunque no escribas cada línea. Acá no simplificamos en exceso ni inflamos lo básico.',
+      'Tengas o no las bases, el proceso exige entender lo que se construye. La IA puede explicarte lo que hace, sugerirte recursos y señalarte lo que no sabes. Aprender antes, durante o después — lo que importa es no ignorarlo.',
     color: 'text-tertiary',
     bg: 'bg-tertiary/5',
   },
   {
-    name: 'ACCESO ABIERTO',
+    name: 'CURIOSIDAD COMO MÉTODO',
     description:
-      'Todo el contenido del sitio es gratuito. Siempre. No hay paywall en las ideas. El conocimiento sobre cómo construir cosas debería estar disponible para quien quiera aprender.',
+      'No saber algo no es un obstáculo — es el punto de partida. La curiosidad intelectual sostenida es lo que separa a quien dirige de quien solo ejecuta.',
     color: 'text-primary-fixed',
     bg: 'bg-surface-container',
   },

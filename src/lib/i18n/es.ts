@@ -13,13 +13,13 @@ export const es = {
   home: {
     hero: {
       headline: 'IDEAS QUE LA IA PUEDE CONSTRUIR HOY',
-      subheadline: 'Proyectos reales para aprender Vibe Coding desde cero. Elige un nivel, elige una herramienta, y empieza a construir.',
+      subheadline: 'Cualquiera puede pedirle código a una IA. Aquí practicas dirigirla con criterio, construir con buenas prácticas, y terminar con algo que entiendes de principio a fin.',
       ctaPrimary: 'EXPLORAR PROYECTOS',
       ctaSecondary: '¿QUÉ ES ESTO?',
     },
     projects: {
       sectionTitle: 'PROYECTOS',
-      sectionSubtitle: 'Ideas listas para construir con IA.',
+      sectionSubtitle: 'Cada proyecto tiene nivel, stack y contexto suficiente para que empieces hoy.',
       readMore: 'VER PROYECTO',
       emptyState: 'No hay proyectos disponibles aún.',
     },

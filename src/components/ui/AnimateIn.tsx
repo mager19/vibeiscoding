@@ -16,9 +16,13 @@ export function AnimateIn({ children, delay = 0, className = '' }: AnimateInProp
     const el = ref.current
     if (!el) return
 
+    // Fallback: si el observer no dispara en 1s, mostrar igual
+    const fallback = setTimeout(() => setVisible(true), 1000 + delay)
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          clearTimeout(fallback)
           observer.disconnect()
           if (delay > 0) {
             setTimeout(() => setVisible(true), delay)
@@ -27,11 +31,14 @@ export function AnimateIn({ children, delay = 0, className = '' }: AnimateInProp
           }
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0, rootMargin: '0px 0px 50px 0px' }
     )
 
     observer.observe(el)
-    return () => observer.disconnect()
+    return () => {
+      clearTimeout(fallback)
+      observer.disconnect()
+    }
   }, [delay])
 
   return (

@@ -1,7 +1,14 @@
 import Link from 'next/link'
+import { Linkedin, Twitter, Instagram } from 'lucide-react'
 import { siteConfig } from '@/config/site.config'
 import { es } from '@/lib/i18n/es'
 import { GradientText } from '@/components/ui'
+
+const socialLinks = [
+  { href: siteConfig.social.linkedin, label: 'LinkedIn', icon: Linkedin },
+  { href: siteConfig.social.twitter, label: 'X / Twitter', icon: Twitter },
+  { href: siteConfig.social.instagram, label: 'Instagram', icon: Instagram },
+].filter((s) => s.href)
 
 export function Footer() {
   return (
@@ -63,7 +70,25 @@ export function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-10 pt-8 border-t border-outline-variant/10 text-center flex flex-col gap-2 items-center">
+        <div className="mt-10 pt-8 border-t border-outline-variant/10 text-center flex flex-col gap-4 items-center">
+          {/* Iconos de redes sociales */}
+          {siteConfig.features.socialLinks && socialLinks.length > 0 && (
+            <div className="flex items-center gap-5">
+              {socialLinks.map(({ href, label, icon: Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="transition-opacity hover:opacity-70"
+                  style={{ color: '#e30071' }}
+                >
+                  <Icon size={18} strokeWidth={1.75} />
+                </a>
+              ))}
+            </div>
+          )}
           <p className="text-[10px] font-bold uppercase tracking-ultra text-on-surface-variant/60">
             {es.footer.copyright}
           </p>

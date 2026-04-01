@@ -123,7 +123,7 @@ export function ProcessTimeline() {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-[7px] top-2 bottom-2 w-px bg-outline-variant/20 hidden md:block" />
+          <div className="absolute left-[7px] top-2 bottom-2 w-px hidden md:block" style={{ background: 'linear-gradient(to bottom, rgba(172,138,255,0.4), rgba(143,245,255,0.2))' }} />
 
           <div className="space-y-10">
             {steps.map((step, i) => (
@@ -157,6 +157,14 @@ export function ProcessTimeline() {
                     {step.status === 'done' && (
                       <span className="text-[9px] font-bold uppercase tracking-widest text-green-400/70">
                         ✓ completado
+                      </span>
+                    )}
+                    {step.status === 'pending' && (
+                      <span
+                        className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md"
+                        style={{ background: 'rgba(172,138,255,0.08)', border: '1px solid rgba(172,138,255,0.25)', color: '#ac8aff' }}
+                      >
+                        PRÓXIMAMENTE
                       </span>
                     )}
                   </div>

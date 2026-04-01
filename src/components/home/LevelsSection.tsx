@@ -1,4 +1,4 @@
-import { GradientText, AnimateIn } from '@/components/ui'
+import { GradientText } from '@/components/ui'
 
 const levels = [
   {
@@ -51,16 +51,16 @@ export function LevelsSection() {
 
         {/* Intro paragraph */}
         <p className="text-base text-on-surface-variant font-light leading-relaxed max-w-2xl mb-12">
-          No importa si vienes de cero o si ya programas. Lo que cambia es cómo usas la IA:
-          al principio te explica todo, después te cuestiona, después ejecuta lo que tú decides.
-          El aprendizaje no desaparece — se acelera.
+          El punto de entrada no es tu nivel técnico — es tu disposición a construir. Lo que cambia
+          según donde estás es cómo usas la IA: al principio te explica, después te cuestiona,
+          después ejecuta lo que decides.
         </p>
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {levels.map((lvl, idx) => (
-            <AnimateIn key={lvl.number} delay={idx * 100}>
+          {levels.map((lvl) => (
             <div
+              key={lvl.number}
               role="article"
               className={`relative overflow-hidden rounded-md p-5 md:p-8 flex flex-col group cursor-default transition-all duration-300 hover:-translate-y-2 hover:shadow-lg ${lvl.bg}`}
               style={{ border: `1px solid ${lvl.border}` }}
@@ -110,7 +110,6 @@ export function LevelsSection() {
                 ))}
               </ul>
             </div>
-            </AnimateIn>
           ))}
         </div>
       </div>

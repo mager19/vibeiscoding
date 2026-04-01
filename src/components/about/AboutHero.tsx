@@ -14,14 +14,14 @@ export function AboutHero() {
 
         {/* Headline — asymmetric layout */}
         <h1 className="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none">
-          <span className="text-on-surface">NO SOY UN PROGRAMADOR.</span>
+          <span className="text-on-surface">NO SOY SOLO UN PROGRAMADOR.</span>
           <br />
           <GradientText variant="full">SOY QUIEN DIRIGE.</GradientText>
         </h1>
 
         {/* Subheadline */}
         <p className="mt-8 text-xl text-on-surface-variant font-light max-w-2xl leading-relaxed">
-          Este sitio es el resultado de un experimento: construir algo real, útil y honesto usando IA como herramienta principal. Lo que lees aquí es lo que aprendí en el proceso.
+          Este sitio existe porque aprendí que la IA no reemplaza el criterio — lo amplifica. Lo construí sin escribir una línea de código a mano, tomando cada decisión de arquitectura, contenido y producto. Lo que lees aquí es el resultado de ese proceso.
         </p>
       </div>
     </section>
