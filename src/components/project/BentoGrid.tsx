@@ -1,8 +1,10 @@
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { type ProjectFrontmatter } from '@/types/project'
 import { es } from '@/lib/i18n/es'
-import { Button } from '@/components/ui'
+import { Button, MdxPre, CopyButton } from '@/components/ui'
 import { Zap, CheckSquare, BookOpen, Clock, ExternalLink, Layers, ShieldCheck } from 'lucide-react'
+
+const mdxComponents = { pre: MdxPre }
 
 const alternativeTools = [
   { name: 'Claude Code',      color: '#ff89ac', border: 'rgba(255,137,172,0.3)', bg: 'rgba(255,137,172,0.08)' },
@@ -148,7 +150,7 @@ export function BentoGrid({ project, content }: BentoGridProps) {
             prose-a:text-secondary prose-a:no-underline hover:prose-a:text-primary
             prose-code:text-tertiary prose-code:bg-surface-high prose-code:px-1 prose-code:rounded
           ">
-            <MDXRemote source={sections[overviewKey] || content} />
+            <MDXRemote source={sections[overviewKey] || content} components={mdxComponents} />
           </div>
         </div>
 
@@ -204,7 +206,7 @@ export function BentoGrid({ project, content }: BentoGridProps) {
                   prose-p:text-on-surface-variant prose-p:font-light prose-p:leading-relaxed prose-p:mb-4
                   prose-strong:text-on-surface prose-strong:font-bold
                 ">
-                  <MDXRemote source={sections[problemKey]} />
+                  <MDXRemote source={sections[problemKey]} components={mdxComponents} />
                 </div>
               )}
             </div>
@@ -228,7 +230,7 @@ export function BentoGrid({ project, content }: BentoGridProps) {
                   prose-p:text-on-surface-variant prose-p:font-light prose-p:leading-relaxed prose-p:mb-4
                   prose-strong:text-on-surface prose-strong:font-bold
                 ">
-                  <MDXRemote source={sections[solutionKey]} />
+                  <MDXRemote source={sections[solutionKey]} components={mdxComponents} />
                 </div>
               )}
             </div>
@@ -370,7 +372,7 @@ export function BentoGrid({ project, content }: BentoGridProps) {
                 prose-a:text-secondary prose-a:underline prose-a:decoration-secondary/30
                 hover:prose-a:text-primary hover:prose-a:decoration-primary/50
               ">
-                <MDXRemote source={sections[resourcesKey]} />
+                <MDXRemote source={sections[resourcesKey]} components={mdxComponents} />
               </div>
             </div>
           )}
@@ -489,14 +491,17 @@ export function BentoGrid({ project, content }: BentoGridProps) {
               <p className="text-[10px] font-bold uppercase tracking-widest mb-6" style={{ color: 'rgba(74,222,128,0.5)' }}>
                 // PROMPT INICIAL SUGERIDO
               </p>
-              <pre className="text-xs font-mono leading-relaxed whitespace-pre-wrap overflow-x-auto rounded-lg p-6"
-                style={{
-                  color: 'rgba(134,239,172,0.8)',
-                  background: '#030a05',
-                  border: '1px solid rgba(74,222,128,0.15)',
-                }}>
-                {promptCode}
-              </pre>
+              <div className="relative group">
+                <CopyButton text={promptCode} />
+                <pre className="text-xs font-mono leading-relaxed whitespace-pre-wrap overflow-x-auto rounded-lg p-6"
+                  style={{
+                    color: 'rgba(134,239,172,0.8)',
+                    background: '#030a05',
+                    border: '1px solid rgba(74,222,128,0.15)',
+                  }}>
+                  {promptCode}
+                </pre>
+              </div>
             </div>
           )}
         </div>

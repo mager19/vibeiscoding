@@ -6,9 +6,9 @@ level: "principiante"
 categories: ["AI", "Web"]
 shortDescription: "Construye un chatbot con una personalidad única usando la API de Claude. Tu primera app de IA funcional, lista para mostrar en portfolio."
 heroImage: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80"
-techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Anthropic SDK", "Vercel"]
+techStack: ["Next.js", "TypeScript", "Tailwind CSS", "SDK de IA", "Vercel"]
 estimatedTime: "1-2 semanas"
-toolSuggestion: "Claude Code + Claude Sonnet 4.5"
+toolSuggestion: "Claude Code, Cursor o cualquier agente con soporte de proyectos"
 publishedAt: "2026-03-29"
 featured: true
 ---
@@ -17,11 +17,11 @@ featured: true
 
 Hay un momento que todo vibe coder recuerda: la primera vez que una app que construiste le responde algo inteligente a alguien. Este proyecto es ese momento.
 
-Vas a construir un chatbot web con una personalidad completamente definida por ti — puede ser un sommelier de vinos sarcástico, un filósofo estoico que responde preguntas de programación, o un asistente de viajes obsesionado con destinos off-the-beaten-path. La IA hace el trabajo pesado; tú defines quién es.
+Vas a construir un chatbot web con una personalidad completamente definida por ti — puede ser un coach de fitness que nunca para de motivarte, un chef que convierte cualquier receta en algo gourmet, o un asistente de viajes que solo recomienda destinos baratos y sorprendentes. La IA hace el trabajo pesado; tú defines quién es.
 
 Al terminar tendrás una aplicación web deployada en Vercel, con interfaz de chat en tiempo real, historial de conversación en el navegador, y una URL que puedes compartir con cualquier persona. No es un tutorial genérico de "hola mundo" — es una app con identidad propia que refleja tu criterio creativo.
 
-El secreto del proyecto está en el **system prompt**: un bloque de texto donde le dices a Claude exactamente quién es, cómo habla, qué sabe y qué límites tiene. Dominar esa técnica es la base de casi todo lo que vas a construir después en el mundo de la IA.
+El secreto del proyecto está en el **system prompt**: un bloque de texto donde le dices al modelo exactamente quién es, cómo habla, qué sabe y qué límites tiene. Dominar esa técnica es la base de casi todo lo que vas a construir después en el mundo de la IA.
 
 ## El Problema
 
@@ -38,7 +38,7 @@ La arquitectura es deliberadamente simple: una página Next.js con un componente
 El flujo es:
 1. Usuario escribe un mensaje en el frontend
 2. El frontend envía el historial de conversación a `/api/chat`
-3. La API route llama a Anthropic con el system prompt + historial
+3. La API route llama al LLM con el system prompt + historial
 4. La respuesta se devuelve al frontend con streaming para que aparezca en tiempo real
 
 El historial de conversación vive en `useState` en el cliente — simple, sin base de datos, suficiente para el MVP. El system prompt vive en el servidor y nunca sale al navegador.
@@ -46,9 +46,9 @@ El historial de conversación vive en `useState` en el cliente — simple, sin b
 ## Tech Stack
 
 - **Next.js 14 (App Router)**: Framework full-stack que te da frontend + backend en un solo proyecto. La API route de proxy es nativa.
-- **TypeScript**: Claude Code genera TypeScript mejor que JavaScript. Los tipos te ayudan a entender la estructura de los mensajes de Anthropic.
+- **TypeScript**: Los agentes de IA generan TypeScript mejor que JavaScript. Los tipos te ayudan a entender la estructura de los mensajes de Anthropic.
 - **Tailwind CSS**: Estilizado rápido sin escribir CSS custom. Puedes tener una UI decente en minutos.
-- **Anthropic SDK (`@anthropic-ai/sdk`)**: La librería oficial. Maneja streaming, tipos y errores de forma elegante.
+- **SDK de IA**: La librería del proveedor que elijas — Anthropic (`@anthropic-ai/sdk`), OpenAI (`openai`), o Google (`@google/generative-ai`). Todas manejan streaming y tienen soporte oficial para Node.js. El patrón de integración es prácticamente el mismo en cualquiera.
 - **Vercel**: Deploy con un comando, HTTPS automático, variables de entorno seguras para tu API key.
 
 ## Features del MVP
@@ -64,68 +64,67 @@ El historial de conversación vive en `useState` en el cliente — simple, sin b
 
 ## Pasos Sugeridos
 
-1. **Crear el proyecto base**: Pedile a Claude Code que genere un proyecto Next.js con TypeScript y Tailwind. Descripción: "crea un proyecto Next.js 14 con App Router, TypeScript y Tailwind CSS".
+1. **Activar el modo aprendizaje**: Antes de escribir una sola línea de código, decile a tu agente de IA en qué nivel estás: "Soy principiante, nunca construí una app con IA. A medida que avancemos, explicame qué hace cada parte del código, por qué la estructuraste así, y qué alternativas existen. No quiero solo que funcione — quiero entender lo que estamos construyendo." Este paso define cómo va a trabajar contigo durante todo el proyecto.
 
-2. **Instalar el SDK de Anthropic**: `npm install @anthropic-ai/sdk`. Pedile a Claude Code que cree el archivo `.env.local` con la variable `ANTHROPIC_API_KEY`.
+2. **Crear el proyecto base**: Describile a tu agente qué querés construir — una app web con un chat donde el usuario escribe mensajes y un bot responde con personalidad. Pedile que sugiera qué tecnologías usar y por qué. Escuchá su razonamiento antes de aceptar. Si no entendés algún término, preguntá antes de continuar. Una vez que tengas claridad, pedile que cree el proyecto.
 
-3. **Crear la API route de proxy**: Pídele que cree `/app/api/chat/route.ts`. Describe que debe recibir un array de mensajes y un system prompt, llamar a la API de Claude con streaming, y devolver la respuesta como stream.
+3. **Conectar la IA**: Decile a tu agente que necesitás conectar el proyecto a un servicio de IA para que el chatbot pueda responder. Pedile que te explique qué opciones existen, cuál recomienda para este caso y por qué, y cómo se hace de forma segura para que tu contraseña (API key) no quede expuesta. Dejá que él maneje la instalación y configuración — tu trabajo es entender qué está haciendo y por qué.
 
-4. **Definir la personalidad**: Antes de tocar el frontend, escribe en papel quién es tu chatbot. Nombre, backstory, forma de hablar, temas que domina, cosas que le disgustan. Esto va a ser tu system prompt.
+4. **Crear el canal de comunicación**: Describile al agente que necesitás un puente entre la pantalla del usuario y el servicio de IA — algo que reciba lo que escribe el usuario, se lo mande a la IA, y devuelva la respuesta. Pedile que lo construya y que te explique por qué este puente es necesario en lugar de conectar al usuario directamente con la IA.
 
-5. **Crear el componente de chat**: Pídele a Claude Code un componente React con el historial de mensajes, el input, y la lógica de llamada a la API. Describe la UI que imaginas.
+5. **Definir la personalidad**: Antes de tocar la pantalla, escribí en papel quién es tu chatbot. Nombre, cómo habla, qué sabe, qué no haría nunca. Esto es lo más importante del proyecto — es lo que lo hace tuyo. Una vez que lo tenés claro, compartíselo al agente y pedile que lo critique y sugiera mejoras. Ese intercambio es parte del proceso.
 
-6. **Conectar streaming**: Pídele que implemente el consumo del stream en el frontend usando `ReadableStream`. Es el paso más técnico, pero Claude Code lo maneja muy bien.
+6. **Construir la pantalla de chat**: Describile al agente cómo imaginás la interfaz: dónde escribe el usuario, cómo se ven los mensajes, cómo se diferencia lo que dice el bot de lo que dice el usuario. Cuanto más concreto seas en la descripción, mejor va a ser el resultado. No necesitás saber cómo se construye — solo saber cómo querés que se vea.
 
-7. **Agregar polish**: Botón de limpiar, indicador de loading, scroll automático al último mensaje, estilos que reflejen la personalidad del bot.
+7. **Ver las respuestas en tiempo real**: Pedile al agente que las respuestas aparezcan palabra por palabra mientras se generan, en lugar de esperar a que termine. Pedile que te explique cómo funciona eso y por qué hace la experiencia mucho mejor. No necesitás entender el código — sí entender el concepto.
 
-8. **Deploy en Vercel**: Conectar el repo de GitHub a Vercel, configurar la variable de entorno `ANTHROPIC_API_KEY`, y deployar.
+8. **Pulir los detalles**: Pedile al agente que agregue los detalles que hacen que una app se sienta completa: un botón para empezar una conversación nueva, una indicación de que el bot está respondiendo, y que la pantalla se mueva sola al último mensaje.
 
-9. **Compartir**: Manda la URL a alguien y mira su reacción cuando chatea con tu bot.
+9. **Publicar la app**: Pedile al agente que te guíe para publicar la app en internet con una URL real. Decile que nunca usaste un servicio de deploy antes y que necesitás instrucciones paso a paso, incluyendo cómo configurar la contraseña de la IA de forma segura en el servidor.
+
+10. **Compartir**: Manda la URL a alguien y mira su reacción cuando chatea con tu bot.
 
 ## Lo que vas a aprender
 
-- Cómo funciona la arquitectura de una app de IA: frontend, API proxy, y LLM
-- Qué es un system prompt y cómo usarlo para controlar el comportamiento de un modelo
-- Cómo manejar streaming de respuestas en Next.js
-- Por qué nunca se expone una API key en el cliente y cómo evitarlo con una API route
-- El ciclo completo de vibe coding: describir → generar → iterar → deployar
-- Variables de entorno y cómo manejar secretos en desarrollo y producción
-- Deploy en Vercel desde cero
+- Cómo funciona una app de IA por dentro: qué pasa desde que el usuario escribe hasta que el bot responde
+- Qué es un system prompt y por qué es la pieza más importante para darle carácter a un chatbot
+- Por qué la contraseña de la IA nunca puede estar en el código que ve el navegador — y cómo protegerla
+- Cómo hacer que las respuestas aparezcan en tiempo real en lugar de esperar que terminen
+- El ciclo completo de vibe coding: describir → generar → iterar → publicar
+- Cómo guardar información sensible de forma segura en un proyecto web
+- Cómo publicar una app en internet con una URL real, desde cero
 
 ## Checklist de Buenas Prácticas
 
 ### Seguridad
-- [ ] La API key de Anthropic vive únicamente en variables de entorno del servidor — nunca en el código del cliente ni en el bundle de JavaScript (cualquier `NEXT_PUBLIC_` prefix la expone al navegador)
-- [ ] Validar y sanitizar el input del usuario antes de enviarlo al LLM: longitud máxima, caracteres permitidos, detección de intentos de inyección de instrucciones
-- [ ] Implementar rate limiting básico en la API route para evitar que un usuario abuse de tu cuota (por ejemplo, máximo 20 requests por minuto por IP)
-- [ ] Sanitizar el output del LLM antes de renderizarlo en el DOM si usas `dangerouslySetInnerHTML` — el modelo puede devolver HTML malicioso si el usuario lo indujo
+- [ ] La contraseña de la IA (API key) está guardada de forma segura en el servidor — preguntale a tu agente si está bien configurada y pedile que te explique por qué no puede estar en el código que ve el navegador
+- [ ] Si alguien escribe algo muy largo o extraño en el chat, la app lo maneja sin romperse — pedile a tu agente que agregue un límite de longitud al mensaje del usuario
+- [ ] Si la IA no responde en un tiempo razonable, el usuario ve un mensaje de error claro, no una pantalla congelada
 
 ### Rendimiento
-- [ ] Limitar el historial de conversación que se envía al LLM: guardar los últimos N mensajes (por ejemplo 20), no el historial completo desde el inicio de la sesión
-- [ ] Implementar streaming correctamente sin acumular todos los chunks en memoria antes de mostrarlos — cada chunk debe llegar al DOM a medida que se recibe
-- [ ] Evitar re-renders innecesarios en el componente de chat: el historial de mensajes no debería re-renderizar mensajes anteriores cada vez que llega un nuevo chunk
-- [ ] Agregar un timeout a la llamada a la API para no dejar al usuario esperando indefinidamente si el modelo no responde
+- [ ] Las respuestas del bot aparecen en tiempo real (palabra por palabra), no después de una espera larga
+- [ ] Si una conversación se extiende mucho, la app sigue funcionando sin ponerse lenta — pedile a tu agente que verifique que no se acumule demasiado historial
+- [ ] El botón de limpiar el chat funciona: después de usarlo, el bot responde como si fuera la primera vez
 
 ### Arquitectura y Estructura
-- [ ] Separar el system prompt en un archivo de configuración independiente (por ejemplo `config/personality.ts`) — no hardcodearlo dentro del handler de la API route
-- [ ] No mezclar lógica de UI con llamadas a la API: el componente de chat no debería llamar directamente a Anthropic, sino a tu propia API route como proxy
-- [ ] Manejar explícitamente los errores de la API de Anthropic: rate limit (429), timeout, y errores de autenticación (401) con mensajes claros al usuario en lugar de pantallas rotas
-- [ ] Definir tipos TypeScript para los mensajes de la conversación en lugar de usar `any` — el SDK de Anthropic exporta los tipos necesarios
+- [ ] La personalidad del bot está definida en un solo lugar del código, no repetida en varios lados — pedile a tu agente que lo verifique
+- [ ] Si la IA devuelve un error (se cayó el servicio, se agotó el crédito), el usuario ve un mensaje útil, no una pantalla rota
 
 ### Antes de publicar (MVP Checklist)
-- [ ] Verificar que `ANTHROPIC_API_KEY` está configurada en las variables de entorno de Vercel (no solo en `.env.local`)
-- [ ] Confirmar que `ANTHROPIC_API_KEY` no aparece en ningún commit del historial de git con `git log -S "ANTHROPIC_API_KEY"`
-- [ ] Probar que el streaming funciona correctamente en el deploy de Vercel (no solo en desarrollo local)
-- [ ] Verificar que el botón de limpiar el historial vacía correctamente el estado y el bot responde como si fuera una conversación nueva
-- [ ] Confirmar que el bot responde en el idioma y con la personalidad definida en el system prompt, no en inglés genérico
+- [ ] La API key está configurada en el servidor de deploy, no solo en tu computadora local — pedile a tu agente que te guíe para verificarlo
+- [ ] Confirmá que la API key no está escrita en ningún archivo de código — pedile a tu agente que haga una búsqueda rápida antes de publicar
+- [ ] Probá la app publicada desde otro dispositivo o navegador, no solo desde donde la desarrollaste
+- [ ] El bot responde con la personalidad que definiste, en el idioma correcto, no en inglés genérico
+- [ ] Mandá el link a alguien más y verificá que pueden usarlo sin instrucciones de tu parte
 
 ## Recursos y Referencias
 
-- [Documentación oficial de la API de Anthropic](https://docs.anthropic.com/en/api/getting-started)
-- [Guía de Mensajes y system prompts de Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts)
+- [Documentación de la API de Anthropic](https://docs.anthropic.com/en/api/getting-started) — si usás Claude como modelo
+- [Documentación de la API de OpenAI](https://platform.openai.com/docs/overview) — si usás GPT como modelo
+- [Documentación de Google AI (Gemini)](https://ai.google.dev/docs) — si usás Gemini como modelo
+- [Guía de system prompts — Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts) — el concepto aplica igual en cualquier proveedor
 - [Next.js App Router — Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
 - [Vercel — Deploy desde GitHub](https://vercel.com/docs/deployments/git)
-- [SDK de Anthropic para Node.js — Streaming](https://github.com/anthropic-sdk/sdk-python#streaming)
 
 ## Habilidades que Desarrollas
 
@@ -154,15 +153,15 @@ La habilidad de prompt engineering que adquieres aquí se reutiliza en el 90% de
 
 ### Divide el proyecto en fases
 
-**Fase 1 — Setup (30 min):** Crear el proyecto base, instalar dependencias, configurar la API key como variable de entorno. No escribas ninguna lógica de chat todavía.
+**Fase 1 — Arrancar (30 min):** Decile a tu agente que querés construir un chatbot con personalidad y que te ayude a armar el proyecto base. No escribas nada de lógica de chat todavía — solo dejá que el proyecto exista y que la herramienta esté conectada.
 
-**Fase 2 — API proxy (1-2 horas):** Crear la route que conecta el frontend con el LLM. Probarla con un cliente HTTP (curl o Postman) antes de tocar la UI.
+**Fase 2 — El cerebro del bot (1-2 horas):** Pedile al agente que construya la parte que conecta tu app con la IA. Antes de seguir, verificá que funcione enviándole un mensaje simple y recibiendo respuesta.
 
-**Fase 3 — Sistema de personalidad (1-2 horas):** Escribir el system prompt de tu chatbot. Este paso no es técnico — es creativo. Dedica tiempo real aquí, es lo que diferencia tu proyecto.
+**Fase 3 — La personalidad (1-2 horas):** Escribí en papel quién es tu chatbot antes de hablar con el agente. Este paso no es técnico — es creativo. Es lo que hace que tu proyecto sea tuyo y no uno más.
 
-**Fase 4 — Frontend (2-4 horas):** Construir el componente de chat: input, historial de mensajes, streaming. Conectarlo a la API del paso 2.
+**Fase 4 — La pantalla de chat (2-4 horas):** Describile al agente cómo imaginás la interfaz: cómo se ven los mensajes, dónde escribe el usuario, cómo responde el bot. Cuanto más concreto, mejor.
 
-**Fase 5 — Polish y deploy (1-2 horas):** Estados de carga, scroll automático, botón de reset. Deploy en Vercel.
+**Fase 5 — Detalles y publicación (1-2 horas):** Pulir la experiencia y publicar la app con una URL real que puedas compartir.
 
 ### ¿Agente o modo chat?
 
@@ -176,21 +175,24 @@ Para este proyecto, **modo agente** (Claude Code, Cursor Agent, Copilot Workspac
 
 ### Prompt inicial sugerido
 
+Copiá este prompt, reemplazá las partes entre `{{}}` y pegalo en tu agente de IA para arrancar.
+
 ```
-Vamos a construir juntos una aplicación de chatbot con Next.js, App Router y TypeScript.
+Soy principiante, nunca he construido una app con IA antes.
 
-Antes de escribir una línea de código, necesito que me hagas las preguntas necesarias para definir bien el scope del proyecto: qué personalidad tendrá el bot, qué stack exacto usaremos, si hay preferencias de UI, qué funcionalidades son MVP y cuáles son opcionales.
+Quiero construir {{descripción de tu idea: ej. "un chatbot web donde el usuario escribe mensajes y un bot con personalidad propia responde"}}.
 
-Una vez tengamos el scope claro, construye la aplicación. A medida que implementes cada decisión técnica (estructura de archivos, elección de patrones, manejo del streaming, etc.), explícame brevemente por qué tomaste esa decisión y qué alternativas existían. Quiero entender lo que se construye, no solo que funcione.
+El chatbot va a tener este carácter: {{describe tu bot: ej. "un coach de fitness que habla con energía y siempre termina con una frase motivadora"}}.
 
-Requisitos base:
-- API route en /app/api/chat/route.ts como proxy hacia [tu LLM preferido]
-- Recibe un array de mensajes y un system prompt, devuelve respuesta con streaming
-- Componente de chat con historial de mensajes, input y stream en tiempo real
-- System prompt que define la personalidad del bot: [describe aquí quién es tu chatbot]
-- API key desde variables de entorno, nunca hardcodeada
+Antes de escribir código, hazme las preguntas que necesites para entender bien qué quiero construir. Después sugiere qué tecnologías usar y explícame cada una en lenguaje simple — qué es, para qué sirve en este proyecto, y por qué la elegiste sobre otras opciones.
+
+A medida que construyas, explícame qué está pasando en cada paso: qué hace cada parte, por qué está ahí, y qué pasaría si no estuviera. No quiero solo que funcione — quiero entender lo que estamos construyendo.
+
+Necesito que las respuestas del bot aparezcan en tiempo real, palabra por palabra, sin que el usuario tenga que esperar a que termine. Explícame cómo funciona eso cuando lo implementes.
+
+La contraseña para acceder al servicio de IA nunca puede estar en el código que ve el navegador. Configúrala de forma segura y explícame por qué eso importa.
+
+Cuando el proyecto esté listo localmente, guíame paso a paso para publicarlo en internet con una URL real. Asume que nunca he hecho esto antes.
 ```
 
-Reemplaza `[tu LLM preferido]` con la API que vayas a usar (Anthropic, OpenAI, Gemini, etc.) y personaliza `[describe aquí quién es tu chatbot]` antes de enviarlo.
-
-> **Tip de aprendizaje**: Si en algún momento el agente hace algo que no entiendes, interrumpelo y pregunta: *"Antes de continuar, explícame qué hace este bloque de código y por qué lo estructuraste así."* Un buen agente de IA debería poder explicar cada decisión que toma.
+> **Tip**: Si en algún momento no entiendes algo que hizo el agente, interrumpelo y pregunta: *"Antes de continuar, explícame qué hace esto y por qué lo hiciste así."* Esa pregunta vale más que seguir avanzando sin entender.
