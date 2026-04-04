@@ -53,16 +53,17 @@ export default async function ProjectPage({ params }: PageProps) {
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: frontmatter.title,
+    '@type': 'LearningResource',
+    name: frontmatter.title,
     description: frontmatter.shortDescription,
     url: `${siteConfig.url}/proyectos/${slug}`,
     author: { '@type': 'Organization', name: siteConfig.name, url: siteConfig.url },
-    publisher: { '@type': 'Organization', name: siteConfig.name, url: siteConfig.url },
+    provider: { '@type': 'Organization', name: siteConfig.name, url: siteConfig.url },
     inLanguage: 'es',
     keywords: frontmatter.techStack.join(', '),
     educationalLevel: frontmatter.level,
-    learningResourceType: 'Project Idea',
+    learningResourceType: 'Project-based learning',
+    teaches: frontmatter.categories.join(', '),
     isAccessibleForFree: true,
   }
 

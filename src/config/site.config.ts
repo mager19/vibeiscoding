@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "Vibe is Coding",
-  description: "Ideas de proyectos de Vibe Coding para todos los niveles. Aprende a construir aplicaciones reales con herramientas de IA.",
+  description: "Proyectos guiados para aprender a construir aplicaciones con IA. Desde tu primer chatbot hasta herramientas reales — sin teoría, construyendo desde el primer día.",
   url: "https://vibeiscoding.com",
   locale: "es",
   author: "Vibe is Coding",

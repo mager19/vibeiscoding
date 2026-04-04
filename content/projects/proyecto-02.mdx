@@ -6,9 +6,9 @@ level: "intermedio"
 categories: ["AI", "Productivity", "Web"]
 shortDescription: "Sube cualquier contrato en PDF y recibe un análisis claro: cláusulas riesgosas, puntos clave, y preguntas que deberías hacerle a tu abogado."
 heroImage: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=800&q=80"
-techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Anthropic SDK", "pdf-parse", "Vercel"]
-estimatedTime: "2-3 semanas"
-toolSuggestion: "Claude Code + Claude Sonnet 4.5"
+techStack: ["Next.js", "TypeScript", "Tailwind CSS", "SDK de IA", "pdf-parse", "Vercel"]
+estimatedTime: "3-4 semanas"
+toolSuggestion: "Claude Code, Cursor o cualquier agente con soporte de proyectos"
 publishedAt: "2026-03-29"
 featured: true
 ---
@@ -17,7 +17,7 @@ featured: true
 
 Los contratos están escritos para proteger a quien los redacta, no a quien los firma. El lenguaje legal es denso por diseño — lleno de cláusulas que pasas por alto cuando quieres cerrar un deal rápido. Freelancers que firman sin leer. Inquilinos que no entienden lo que están aceptando. Founders que no notan la cláusula de no competencia enterrada en la página 11.
 
-Este proyecto te da el poder de cambiar eso: una app web donde subes cualquier contrato en PDF y Claude lo analiza en segundos. Te devuelve un resumen ejecutivo, identifica las cláusulas que merecen atención, detecta patrones de lenguaje desfavorables, y genera una lista de preguntas inteligentes para hacerle a un abogado antes de firmar.
+Este proyecto te da el poder de cambiar eso: una app web donde subes cualquier contrato en PDF y la IA lo analiza en segundos. Te devuelve un resumen ejecutivo, identifica las cláusulas que merecen atención, detecta patrones de lenguaje desfavorables, y genera una lista de preguntas inteligentes para hacerle a un abogado antes de firmar.
 
 No reemplaza al abogado — lo potencia. Y te da a ti, como parte que firma, la información para negociar desde una posición informada.
 
@@ -37,7 +37,7 @@ El flujo tiene tres etapas bien definidas:
 
 **Extracción**: El usuario sube un PDF. Una API route en Next.js recibe el archivo con `FormData`, lo procesa con `pdf-parse` para extraer el texto plano, y limpia el output (eliminando headers/footers repetidos, normalizando espacios).
 
-**Análisis**: El texto extraído se envía a Claude con un prompt estructurado que pide un análisis en formato JSON con secciones predefinidas: resumen ejecutivo, cláusulas destacadas (con severidad: informativa / atención / riesgo), puntos fuertes del contrato, y preguntas sugeridas. El formato JSON garantiza que el output sea parseable y predecible.
+**Análisis**: El texto extraído se envía al modelo de IA con un prompt estructurado que pide un análisis en formato JSON con secciones predefinidas: resumen ejecutivo, cláusulas destacadas (con severidad: informativa / atención / riesgo), puntos fuertes del contrato, y preguntas sugeridas. El formato JSON garantiza que el output sea parseable y predecible.
 
 **Presentación**: El frontend parsea el JSON y renderiza cada sección con componentes visuales distintos — colores por severidad, íconos, acordeones para las cláusulas largas. La experiencia final es más parecida a un informe de auditoría que a un dump de texto.
 
@@ -46,7 +46,7 @@ El flujo tiene tres etapas bien definidas:
 - **Next.js 14 (App Router)**: Manejo de archivos con API routes y `FormData`. El App Router facilita el manejo de estados de loading durante el procesamiento.
 - **TypeScript**: Tipos estrictos para el schema del análisis JSON — fundamental para que el frontend confíe en la estructura del response.
 - **pdf-parse**: Librería Node.js robusta para extraer texto de PDFs. Simple, sin dependencias de binarios externos, funciona bien en Vercel.
-- **Anthropic SDK**: Claude Sonnet es ideal para este caso — razonamiento legal requiere capacidad de síntesis y matices que los modelos más pequeños no manejan bien.
+- **SDK de IA** (Anthropic, OpenAI, Google): El análisis legal requiere un modelo con buena capacidad de síntesis y manejo de matices — elige uno de los modelos grandes de cualquier proveedor.
 - **Tailwind CSS**: Cards con colores semánticos (rojo/amarillo/verde) para las cláusulas por severidad.
 - **Vercel**: Deploy con soporte nativo para API routes que manejan `multipart/form-data`.
 
@@ -54,7 +54,7 @@ El flujo tiene tres etapas bien definidas:
 
 - [ ] Upload de archivos PDF con drag & drop o selector de archivo
 - [ ] Extracción del texto del PDF en el servidor
-- [ ] Análisis estructurado con Claude que devuelve JSON con secciones fijas
+- [ ] Análisis estructurado con IA que devuelve JSON con secciones fijas
 - [ ] Resumen ejecutivo del contrato (tipo, partes, duración, objeto)
 - [ ] Lista de cláusulas destacadas con nivel de severidad (informativa / atención / riesgo)
 - [ ] Sección de "Preguntas para tu abogado" generadas automáticamente
@@ -65,37 +65,43 @@ El flujo tiene tres etapas bien definidas:
 
 ## Pasos Sugeridos
 
-1. **Setup del proyecto**: Crear proyecto Next.js con TypeScript y Tailwind. Instalar `pdf-parse` y el SDK de Anthropic.
+1. **Elegir la librería de extracción de PDF**: Antes de instalar nada, pregúntale a tu agente cuál es la diferencia entre `pdf-parse` y `pdfjs-dist` para un proyecto en Next.js con Vercel. Evalúa los trade-offs (compatibilidad con Edge Runtime, dependencias de binarios, soporte de PDFs escaneados) y elige con criterio propio.
 
-2. **Crear el componente de upload**: Pídele a Claude Code un componente con drag & drop, preview del nombre del archivo, y validación de tipo (solo PDF) y tamaño (máx 5MB).
+> **Tip**: Esta decisión parece menor pero tiene consecuencias reales. `pdf-parse` es simple pero puede fallar en Vercel si no configuras bien el bundle. Decidirla bien al inicio evita refactorizar el endpoint a mitad del proyecto.
 
-3. **Crear la API route de extracción**: `/app/api/analyze/route.ts` que recibe `FormData`, extrae el archivo, usa `pdf-parse` para obtener el texto, y valida que haya contenido extraído.
+2. **Construir y probar el pipeline de extracción primero**: Antes de tocar la UI, construye el endpoint que recibe el PDF, extrae el texto y lo devuelve crudo. Pruébalo con tres contratos reales usando `curl` o Postman. Valida que el texto extraído es limpio y legible — si el PDF tiene headers repetidos o codificación rara, es el momento de limpiar el output.
 
-4. **Diseñar el schema del análisis**: Antes de escribir el prompt, define en TypeScript la interfaz del JSON que quieres recibir. Ejemplo: `{ summary: string, clauses: Array<{ title, content, severity, explanation }>, questions: string[] }`. Este schema es tu contrato con el modelo.
+3. **Diseñar el schema del análisis antes de escribir el prompt**: Define en TypeScript la interfaz exacta del JSON que quieres recibir del modelo. Ejemplo: `{ summary: string, clauses: Array<{ title, content, severity, explanation }>, questions: string[] }`. Este schema es tu contrato con el modelo — si lo cambias después, tienes que actualizar el prompt y el frontend al mismo tiempo.
 
-5. **Construir el prompt de análisis**: Pídele a Claude Code que genere un system prompt para análisis de contratos. Después itera — pruébalo con contratos reales y ajusta hasta que el output sea consistente.
+> **Tip**: Muéstrale el schema a tu agente y pídele que evalúe si es suficientemente expresivo para cubrir los casos de un contrato de arrendamiento, uno de servicios freelance, y uno de confidencialidad. Tres tipos distintos revelan si el schema es suficientemente genérico.
 
-6. **Integrar análisis con streaming**: El análisis puede tardar 15-30 segundos para contratos largos. Implementá streaming para mostrar el progreso.
+4. **Construir el prompt de análisis iterativamente**: Pide a tu agente que genere un primer system prompt basado en tu schema. Luego pruébalo tú mismo con contratos reales y anota dónde el output no cumple el formato esperado. Itera el prompt hasta que el JSON sea parseable y consistente en al menos tres contratos distintos antes de avanzar.
 
-7. **Crear los componentes de resultado**: Tarjeta de resumen ejecutivo, lista de cláusulas con colores por severidad, sección de preguntas. Pedile a Claude Code que los genere uno por uno.
+5. **Decidir la estrategia para contratos largos**: Antes de integrar el análisis al flujo completo, evalúa con tu agente qué pasa si el contrato excede el context window del modelo. Discute las opciones: truncar con aviso al usuario, hacer chunking del texto, o limitar el tamaño de archivo aceptado. Elige una estrategia y refléjala en el código — no la dejes como caso sin manejar.
 
-8. **Manejo de errores y edge cases**: PDFs escaneados (sin texto extraíble), contratos en idiomas distintos, archivos muy largos que exceden el context window.
+6. **Integrar streaming para la respuesta**: El análisis puede tardar 15-30 segundos para contratos medianos. Implementa streaming para mostrar progreso en lugar de una pantalla en blanco.
 
-9. **Polish y deploy**: Loading states, animaciones sutiles, deploy en Vercel con `ANTHROPIC_API_KEY` configurada.
+> **Tip**: Antes de implementar streaming, prueba el endpoint completo con un contrato real. Entender la respuesta cruda — cuánto tarda, qué tan grande es el JSON — te ayuda a decidir qué mostrar durante la espera y qué mostrar al final.
+
+7. **Construir y validar los componentes de resultado**: Pide a tu agente que genere los componentes de visualización (resumen ejecutivo, lista de cláusulas con colores por severidad, preguntas sugeridas). Luego pruébalos tú con un JSON de ejemplo malformado — verifica que la app no rompe si el modelo devuelve un campo vacío o un tipo inesperado.
+
+8. **Cubrir los casos de error antes del deploy**: Define con tu agente los mensajes de error para cada caso real: PDF escaneado sin texto extraíble, archivo demasiado grande, JSON inválido devuelto por el modelo, timeout. Cada error debe tener un mensaje específico y útil para el usuario — no un error genérico de JavaScript.
+
+9. **Deploy con variables de entorno correctas**: Configura tu API key del proveedor de IA como variable de entorno en Vercel (`{{NOMBRE_DE_TU_VARIABLE, ej: OPENAI_API_KEY, ANTHROPIC_API_KEY}}`). Verifica que el límite de tamaño de payload de Vercel está configurado correctamente para manejar archivos PDF.
 
 ## Lo que vas a aprender
 
-- Manejo de archivos en Next.js: upload, procesamiento server-side, validaciones
-- Cómo diseñar prompts que devuelven JSON estructurado y predecible
-- TypeScript avanzado: tipos para schemas de API, discriminated unions para severidad
-- Manejo de context windows: estrategias para contratos que exceden el límite
-- UX para apps de análisis: mostrar resultados complejos de forma scannable
-- Prompting para dominios especializados (legal, médico, financiero) — cómo darle contexto sin hacer al modelo responsable de decisiones profesionales
+- Cómo evaluar trade-offs entre dependencias técnicas y elegir con criterio — no instalar la primera opción que aparece, sino entender qué implica cada una en producción
+- Diseñar el contrato de datos (schema TypeScript) antes de escribir el prompt — y por qué ese orden cambia completamente la calidad del output del modelo
+- Iterar prompts con casos reales hasta lograr consistencia — la diferencia entre un prompt que "funciona en el demo" y uno que funciona en producción
+- Definir una estrategia explícita para los casos límite (contratos muy largos, PDFs escaneados) antes de que se conviertan en bugs en producción
+- Validar que el sistema es robusto ante inputs inesperados — no solo que funciona con el caso feliz
+- Prompting para dominios especializados (legal, médico, financiero): cómo dar contexto al modelo sin hacerlo responsable de decisiones profesionales
 
 ## Checklist de Buenas Prácticas
 
 ### Seguridad
-- [ ] Nunca enviar datos sensibles del usuario directamente al LLM sin considerar qué información incluye el contrato — si el sistema es para uso propio está bien, pero si lo abres a otros usuarios, aclarar que los textos se envían a la API de Anthropic
+- [ ] Nunca enviar datos sensibles del usuario directamente al LLM sin considerar qué información incluye el contrato — si el sistema es para uso propio está bien, pero si lo abres a otros usuarios, aclarar que los textos se envían a una API externa de IA
 - [ ] Validar el tipo MIME del archivo en el servidor, no solo en el cliente — un usuario puede renombrar cualquier archivo como `.pdf` para intentar subir contenido malicioso
 - [ ] Limitar el tamaño del archivo que se puede procesar tanto en el cliente como en la API route (Vercel tiene límites de payload — configura `export const config = { api: { bodyParser: false } }` y maneja el límite tú mismo)
 - [ ] No exponer la estructura interna del sistema en mensajes de error: un stack trace con rutas de archivo o nombres de variables internas es información útil para un atacante
@@ -116,21 +122,23 @@ El flujo tiene tres etapas bien definidas:
 - [ ] Verificar que el límite de tamaño de archivo está implementado y muestra un mensaje claro al usuario antes de intentar el upload
 - [ ] Probar con un PDF corrupto o con un archivo `.jpg` renombrado como `.pdf` — la app debe mostrar un error amigable, no un stack trace
 - [ ] Confirmar que el output del LLM se valida antes de renderizar: si el modelo devuelve texto plano en lugar de JSON, la app no debe romper
+- [ ] Probar el prompt de análisis con al menos tres tipos de contrato distintos (arrendamiento, servicios, confidencialidad) — si el JSON devuelto varía en estructura, el prompt necesita más iteración antes de estar listo
 - [ ] Verificar que los datos del usuario (el texto del contrato) no se guardan en ningún log o base de datos del servidor si no es necesario
 
 ## Recursos y Referencias
 
 - [pdf-parse en npm](https://www.npmjs.com/package/pdf-parse)
-- [Anthropic — Structured Outputs con JSON](https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency)
 - [Next.js — Handling File Uploads](https://nextjs.org/docs/app/building-your-application/routing/route-handlers#request-body-formdata)
-- [Guía de prompt engineering para análisis de documentos](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/long-context-tips)
 - [Vercel — Limits de tamaño en API routes](https://vercel.com/docs/functions/configuring-functions/payload-size-limit)
+- [Anthropic — Outputs estructurados con JSON](https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency)
+- [OpenAI — Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)
+- [Google — Gemini JSON mode](https://ai.google.dev/gemini-api/docs/json-mode)
 
 ## Habilidades que Desarrollas
 
 - **File handling en Next.js**: Subir archivos, procesarlos en el servidor, devolver resultados — un flujo fundamental en apps de productividad.
 - **Procesamiento de documentos con IA**: Extraer información estructurada de texto no estructurado es una de las aplicaciones más valiosas de los LLMs.
-- **Diseño de outputs estructurados**: Usar JSON schema o instrucciones precisas para que Claude devuelva datos en formato predecible.
+- **Diseño de outputs estructurados**: Usar JSON schema o instrucciones precisas para que el modelo devuelva datos en formato predecible.
 - **UX para herramientas de productividad**: Diseñar flujos de upload → análisis → resultado requiere pensar en estados de carga, errores y feedback.
 - **Legal tech básico**: Entender qué buscar en un contrato te da contexto para construir mejores prompts de análisis.
 
@@ -142,24 +150,24 @@ Además, el patrón "subir documento → analizar con IA → mostrar resultado e
 
 ## Antes de Empezar
 
-- **Necesitas**: API key de Anthropic. Para PDFs, necesitarás una librería de parsing como `pdf-parse` o `pdfjs-dist`.
+- **Necesitas**: API key de cualquier proveedor de LLM (Anthropic, OpenAI, Google). Para PDFs, necesitarás una librería de parsing como `pdf-parse` o `pdfjs-dist`.
 - **Contexto útil**: Haber leído al menos un contrato de servicio o arrendamiento — no para entenderlo legalmente, sino para saber qué cláusulas buscar.
-- **Limitación a considerar**: Los modelos de Claude tienen un context window. Contratos muy largos (más de 50 páginas) necesitan estrategias de chunking. Para el MVP, contratos de 1-10 páginas funcionan perfecto.
-- **Tiempo real**: 1 semana para la versión funcional. La segunda semana es para pulir la UI y agregar tipos de análisis adicionales.
+- **Limitación a considerar**: Los LLMs tienen un context window limitado. Contratos muy largos (más de 50 páginas) necesitan estrategias de chunking. Para el MVP, contratos de 1-10 páginas funcionan perfecto.
+- **Tiempo real**: 2 semanas para la versión funcional si dedicas 2-3 horas diarias. La tercera semana es para iterar el prompt con contratos reales y cubrir edge cases. La cuarta para pulir la UI y hacer deploy.
 
 ## Cómo Abordarlo
 
 ### Divide el proyecto en fases
 
-**Fase 1 — Setup (30 min):** Proyecto base, configurar la API key, instalar librería de parsing de PDF (`pdf-parse` o `pdfjs-dist`).
+**Fase 1 — Decisiones de arquitectura (2-3 días):** Evaluar y elegir la librería de extracción de PDF. Diseñar el schema TypeScript del análisis. Definir la estrategia para contratos largos. Estas decisiones estructuran todo lo que sigue — hacerlas mal al inicio cuesta más corregirlas después.
 
-**Fase 2 — Procesamiento de archivo (2-3 horas):** Endpoint que recibe un archivo, extrae el texto, lo pasa al LLM con instrucciones de análisis, devuelve un objeto JSON estructurado. Probar con un contrato real antes de construir la UI.
+**Fase 2 — Pipeline backend (4-5 días):** Endpoint de extracción de texto, integración con el modelo de IA, validación del JSON de respuesta. Probar con al menos tres contratos reales e iterar el prompt hasta que el output sea consistente antes de avanzar a la UI.
 
-**Fase 3 — Interfaz de upload (2-3 horas):** Componente de drag-and-drop o input de archivo. Estados: esperando archivo → procesando → resultado → error.
+**Fase 3 — Interfaz y flujo completo (4-5 días):** Componente de upload con drag-and-drop y estados (esperando → procesando → resultado → error). Integrar streaming para mostrar progreso. Validar que la UI maneja correctamente un JSON malformado o una respuesta de error del backend.
 
-**Fase 4 — Visualización de resultados (2-3 horas):** Mostrar el análisis de forma legible: cláusulas importantes, riesgos encontrados, resumen ejecutivo.
+**Fase 4 — Robustez y edge cases (3-4 días):** Cubrir los casos que rompen la app en producción: PDF escaneado sin texto, archivo demasiado grande, timeout del modelo, JSON inválido. Cada error con un mensaje específico y útil para el usuario.
 
-**Fase 5 — Polish (opcional):** Comparar múltiples contratos, historial de análisis, exportar el reporte.
+**Fase 5 — Deploy y revisión final (1-2 días):** Configurar variables de entorno en Vercel, verificar límites de payload, correr el checklist de buenas prácticas antes de publicar.
 
 ### ¿Agente o modo chat?
 
@@ -167,15 +175,43 @@ Además, el patrón "subir documento → analizar con IA → mostrar resultado e
 
 ### ¿TUI o editor?
 
-- **Claude Code o Cursor Agent:** Para generar el proyecto base y el endpoint de procesamiento.
-- **Cursor (inline):** Útil para refinar los prompts de análisis dentro del código — puedes editar el system prompt directamente y ver los cambios en contexto.
+- **Agente (Claude Code, Cursor Agent, Windsurf):** Para generar el proyecto base y el endpoint de procesamiento.
+- **Editor inline (Cursor, Copilot):** Útil para refinar los prompts de análisis dentro del código — puedes editar el system prompt directamente y ver los cambios en contexto.
 
 ### Prompt inicial sugerido
 
+Copia este prompt, reemplaza las partes entre `{{}}` y pégalo en tu agente de IA para arrancar.
+
 ```
-Construye una API route en Next.js que:
-1. Reciba un archivo (PDF o texto) como multipart form data.
-2. Extraiga el texto del archivo usando pdf-parse.
-3. Lo envíe a [tu LLM] con el siguiente system prompt: "Eres un asistente legal especializado en análisis de contratos. Analiza el siguiente contrato e identifica: (a) las cláusulas principales, (b) los riesgos o términos desfavorables, (c) las obligaciones de cada parte, (d) fechas y plazos importantes. Devuelve el análisis en JSON con las claves: clausulas, riesgos, obligaciones, fechas."
-4. Devuelva el JSON parseado al frontend.
+Voy a construir una app web en Next.js que analiza contratos en PDF usando un modelo de IA.
+Antes de escribir código, necesito que me ayudes a tomar dos decisiones de arquitectura:
+
+1. Librería de extracción de PDF: evalúa `pdf-parse` vs `pdfjs-dist` para un proyecto
+   en Next.js desplegado en Vercel. Considera compatibilidad con el App Router, Edge Runtime,
+   dependencias de binarios, y soporte de PDFs escaneados. Recomiéndame una y explica
+   por qué descartaste la otra.
+
+2. Estrategia para contratos largos: ¿qué hacemos si el texto extraído supera el context
+   window del modelo? Dame tres opciones con sus trade-offs (truncar, chunking, límite de
+   archivo) y dime cuál recomendarías para un MVP.
+
+Una vez que hayamos decidido eso, construye el endpoint de extracción y análisis con este schema
+de respuesta:
+
+{{pega aquí tu schema TypeScript, ej:
+  {
+    summary: string,
+    clauses: Array<{ title: string, content: string, severity: "info" | "warning" | "risk", explanation: string }>,
+    questions: string[]
+  }
+}}
+
+El endpoint debe:
+- Recibir el PDF como multipart/form-data
+- Extraer el texto con la librería que elijamos
+- Enviar el texto al modelo con un system prompt de análisis legal
+- Validar que el JSON devuelto cumple el schema antes de responder al frontend
+- Manejar errores específicos: PDF sin texto extraíble, archivo demasiado grande, JSON inválido
+
+Explica cada decisión de implementación que tomes, especialmente si hay trade-offs.
 ```
