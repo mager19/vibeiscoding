@@ -17,13 +17,16 @@ export function Hero() {
         <div className="max-w-4xl">
           {/* Eyebrow label */}
           <p className="text-[10px] font-bold uppercase tracking-ultra text-tertiary mb-6">
-            PROYECTOS REALES. CÓDIGO CON IA.
+            {es.home.hero.eyebrow}
           </p>
 
           {/* Main headline */}
           <h1 className="text-3xl md:text-6xl lg:text-8xl font-black tracking-tighter text-on-surface uppercase leading-none">
-            <GradientText variant="primary" className="block">VIBE CODING</GradientText>
-            <span className="block">{es.home.hero.headline}</span>
+            {es.home.hero.headlineLines.map((line, i) =>
+              i === 0
+                ? <GradientText key={line} variant="primary" className="block">{line}</GradientText>
+                : <span key={line} className="block">{line}</span>
+            )}
           </h1>
 
           {/* Subheadline */}

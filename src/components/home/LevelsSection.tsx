@@ -3,7 +3,7 @@ import { GradientText } from '@/components/ui'
 const levels = [
   {
     number: '01',
-    badge: 'BEGINNER',
+    badge: 'PRINCIPIANTE',
     color: '#8ff5ff',
     bg: 'bg-surface',
     border: 'rgba(143,245,255,0.2)',
@@ -14,7 +14,7 @@ const levels = [
   },
   {
     number: '02',
-    badge: 'BUILDER',
+    badge: 'INTERMEDIO',
     color: '#ac8aff',
     bg: 'bg-surface-low',
     border: 'rgba(172,138,255,0.2)',
@@ -25,7 +25,7 @@ const levels = [
   },
   {
     number: '03',
-    badge: 'ARCHITECT',
+    badge: 'AVANZADO',
     color: '#ff89ac',
     bg: 'bg-surface',
     border: 'rgba(255,137,172,0.2)',

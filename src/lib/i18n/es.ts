@@ -1,7 +1,7 @@
 export const es = {
   site: {
     name: 'Vibe is Coding',
-    tagline: 'Ideas que la IA puede construir hoy.',
+    tagline: 'Proyectos reales para construir con IA.',
   },
 
   nav: {
@@ -12,10 +12,11 @@ export const es = {
 
   home: {
     hero: {
-      headline: 'IDEAS QUE LA IA PUEDE CONSTRUIR HOY',
-      subheadline: 'Cualquiera puede pedirle código a una IA. Aquí practicas dirigirla con criterio, construir con buenas prácticas, y terminar con algo que entiendes de principio a fin.',
+      eyebrow: 'CATALOGO DE PROYECTOS CON IA.',
+      headlineLines: ['ELIGE.', 'CONSTRUYE.', 'DESPLIEGA.'],
+      subheadline: 'Proyectos reales con instrucciones completas para construir con IA. Principiante, intermedio o avanzado. Con cualquier herramienta.',
       ctaPrimary: 'EXPLORAR PROYECTOS',
-      ctaSecondary: '¿QUÉ ES ESTO?',
+      ctaSecondary: 'VER COMO FUNCIONA',
     },
     projects: {
       sectionTitle: 'PROYECTOS',
@@ -83,7 +84,7 @@ export const es = {
   },
 
   footer: {
-    tagline: 'Ideas que la IA puede construir hoy.',
+    tagline: 'Proyectos reales para construir con IA.',
     copyright: '© 2026 Vibe is Coding. Todos los derechos reservados.',
     links: {
       privacy: 'Privacidad',
