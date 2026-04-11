@@ -1,7 +1,7 @@
 export const es = {
   site: {
     name: 'Vibe is Coding',
-    tagline: 'Ideas que la IA puede construir hoy.',
+    tagline: 'Proyectos reales para construir con IA.',
   },
 
   nav: {
@@ -84,7 +84,7 @@ export const es = {
   },
 
   footer: {
-    tagline: 'Ideas que la IA puede construir hoy.',
+    tagline: 'Proyectos reales para construir con IA.',
     copyright: '© 2026 Vibe is Coding. Todos los derechos reservados.',
     links: {
       privacy: 'Privacidad',
