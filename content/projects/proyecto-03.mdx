@@ -8,7 +8,7 @@ shortDescription: "Pegá tu extracto bancario y obtené un dashboard visual de t
 heroImage: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80"
 techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Recharts", "Anthropic SDK", "Zustand", "Vercel"]
 estimatedTime: "3-4 semanas"
-toolSuggestion: "Claude Code + Claude Sonnet 4.5"
+toolSuggestion: "Claude Code, Cursor o cualquier agente con soporte de proyectos"
 publishedAt: "2026-03-29"
 featured: false
 ---
@@ -33,7 +33,7 @@ Lo que la mayoría de la gente necesita no es una app de finanzas completa. Nece
 
 El proyecto tiene tres fases de datos claramente separadas:
 
-**Ingesta**: Un textarea donde el usuario pega el extracto bancario en texto plano (o un uploader de CSV para bancos que los exportan). No hay formato fijo — Claude va a parsear cualquier formato razonable.
+**Ingesta**: Un textarea donde el usuario pega el extracto bancario en texto plano (o un uploader de CSV para bancos que los exportan). No hay formato fijo — el LLM va a parsear cualquier formato razonable.
 
 **Procesamiento con IA**: El texto crudo se envía a Claude con un prompt que pide que devuelva un JSON con cada transacción categorizada. Las categorías son predefinidas (Alimentación, Transporte, Entretenimiento, Servicios, Salud, etc.) pero el modelo asigna cada transacción a la categoría correcta basándose en el descripción. Un segundo prompt genera el análisis narrativo con insights y recomendaciones.
 
@@ -41,11 +41,11 @@ El proyecto tiene tres fases de datos claramente separadas:
 
 ## Tech Stack
 
-- **Next.js 14**: Base del proyecto. Las API routes manejan las llamadas a Anthropic de forma segura.
+- **Next.js 15**: Base del proyecto. Las API routes manejan las llamadas al LLM de forma segura.
 - **TypeScript**: El schema de transacciones categorizado es perfectamente tipeable. Los tipos te van a salvar de bugs en la visualización.
 - **Recharts**: La librería de charts más popular para React. Altamente customizable con Tailwind, excelente documentación, sin dependencias de D3 directo.
 - **Zustand**: State management liviano para el estado global de las transacciones. Mucho más simple que Redux para este caso de uso.
-- **Anthropic SDK**: El corazón de la categorización. Claude maneja la variabilidad de los formatos bancarios (distintos bancos, distintos países) mejor que cualquier regla hardcodeada.
+- **SDK de IA (Anthropic, OpenAI, etc.)**: El corazón de la categorización. Los LLMs modernos manejan la variabilidad de los formatos bancarios (distintos bancos, distintos países) mejor que cualquier regla hardcodeada.
 - **Tailwind CSS**: Componentes del dashboard con un diseño claro y enfocado en datos.
 - **Vercel**: Deploy simple, API routes incluidas.
 
@@ -72,7 +72,7 @@ El proyecto tiene tres fases de datos claramente separadas:
 
 4. **Diseñar el schema de categorización**: Define en TypeScript la estructura exacta del JSON que Claude debe devolver. Cada transacción tiene: fecha, descripción original, monto, categoría asignada, confianza de la categorización.
 
-5. **Crear el prompt de categorización**: Un prompt que recibe el texto del extracto y devuelve el JSON. Probalo en Claude.ai primero con tus propios extractos reales para ver qué tan bien categoriza antes de integrarlo.
+5. **Crear el prompt de categorización**: Un prompt que recibe el texto del extracto y devuelve el JSON. Probalo en el playground de tu LLM (Claude.ai, ChatGPT, etc.) con tus propios extractos reales para ver qué tan bien categoriza antes de integrarlo.
 
 6. **Integrar la API route**: Conectar el textarea → API route → Claude → Zustand → visualización.
 
