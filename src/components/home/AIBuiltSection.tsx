@@ -77,6 +77,10 @@ export function AIBuiltSection() {
               sin escribir una línea de código a mano.{' '}
               <span className="text-on-surface font-normal">Cada decisión fue mía.</span>
             </p>
+            <p className="mt-3 text-on-surface-variant/40 font-light text-xs max-w-sm leading-relaxed">
+              Esta es la herramienta que usamos para construir este sitio.
+              Tu puedes replicar el mismo proceso con Cursor, Windsurf o cualquier agente que ya uses.
+            </p>
           </div>
 
           {/* CELDA B — Agentes (col-span-5) */}
