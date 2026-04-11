@@ -151,9 +151,12 @@ Además, el patrón "subir documento → analizar con IA → mostrar resultado e
 ## Antes de Empezar
 
 - **Necesitas**: API key de cualquier proveedor de LLM (Anthropic, OpenAI, Google). Para PDFs, necesitarás una librería de parsing como `pdf-parse` o `pdfjs-dist`.
-- **Contexto útil**: Haber leído al menos un contrato de servicio o arrendamiento — no para entenderlo legalmente, sino para saber qué cláusulas buscar.
+- **Opcional pero recomendado**: Haber leído al menos un contrato de servicio o arrendamiento — no para entenderlo legalmente, sino para saber qué cláusulas buscar y construir mejores prompts de análisis.
+- **Herramienta**: Claude Code, Cursor, Windsurf o cualquier agente con soporte para proyectos completos. Elige la que ya conoces.
 - **Limitación a considerar**: Los LLMs tienen un context window limitado. Contratos muy largos (más de 50 páginas) necesitan estrategias de chunking. Para el MVP, contratos de 1-10 páginas funcionan perfecto.
 - **Tiempo real**: 2 semanas para la versión funcional si dedicas 2-3 horas diarias. La tercera semana es para iterar el prompt con contratos reales y cubrir edge cases. La cuarta para pulir la UI y hacer deploy.
+- **Mentalidad**: El objetivo no es que la app "funcione" — es que funcione con contratos reales, con errores reales, y que tú entiendas por qué cada pieza está donde está.
+- **Modo aprendizaje**: Al empezar, pídele a tu agente que explique cada decisión de arquitectura antes de implementarla. Si propone una librería o un patrón, pregunta por qué esa opción y no otra.
 
 ## Cómo Abordarlo
 
@@ -175,8 +178,9 @@ Además, el patrón "subir documento → analizar con IA → mostrar resultado e
 
 ### ¿TUI o editor?
 
-- **Agente (Claude Code, Cursor Agent, Windsurf):** Para generar el proyecto base y el endpoint de procesamiento.
-- **Editor inline (Cursor, Copilot):** Útil para refinar los prompts de análisis dentro del código — puedes editar el system prompt directamente y ver los cambios en contexto.
+- **Claude Code (TUI):** Ideal para generar el proyecto base, el endpoint de procesamiento y manejar múltiples archivos a la vez.
+- **Cursor o Windsurf (IDE):** Útiles para refinar los prompts de análisis dentro del código — puedes editar el system prompt directamente y ver los cambios en contexto.
+- **GitHub Copilot:** Adecuado para completar código repetitivo (manejo de errores, validaciones de schema) una vez que la estructura principal está definida.
 
 ### Prompt inicial sugerido
 

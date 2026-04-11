@@ -1,0 +1,194 @@
+---
+title: "Tu Presentación Profesional con IA"
+codename: "BIO_GENERATOR"
+slug: "tu-presentacion-profesional-con-ia"
+level: "principiante"
+categories: ["AI", "Productivity", "Web"]
+shortDescription: "Describe lo que haces en tus propias palabras y obtén una bio lista para LinkedIn, tu portfolio o cualquier red profesional."
+heroImage: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&q=80"
+techStack: ["Next.js", "TypeScript", "Tailwind CSS", "SDK de IA"]
+estimatedTime: "1-2 semanas"
+toolSuggestion: "Claude Code, Cursor o cualquier agente con soporte de proyectos"
+publishedAt: "2026-04-04"
+featured: false
+---
+
+## Overview
+
+Hay una pregunta que paraliza a casi todo el mundo: "¿y tú a qué te dedicas?". En persona la responderías en diez segundos. Pero cuando tienes que escribirlo — para tu perfil de LinkedIn, tu portfolio, el bio de tu red social o el pie de firma de tu email — de repente no sabes ni cómo empezar.
+
+No es falta de experiencia. Es que escribir sobre uno mismo en tercera persona, en formato profesional, con el tono correcto para cada plataforma, es una habilidad completamente distinta a hacer bien tu trabajo. La mayoría de las personas termina con un bio genérico copiado de alguien más, o con una lista de títulos que no dice nada sobre quién realmente son.
+
+Este proyecto resuelve eso. Construyes una app web donde el usuario describe su trayectoria en sus propias palabras — sin presión, sin formato, como si le contara a un amigo — y la IA lo convierte en una presentación pulida, adaptada al tono y la plataforma que elija.
+
+Técnicamente, es el proyecto más directo que puedes construir con IA: un formulario, un clic, un resultado. Sin conversaciones, sin historial de mensajes, sin arquitecturas complejas. Todo el valor está en cómo transformas texto crudo en texto útil a través de un prompt bien diseñado.
+
+## El Problema
+
+La mayoría de los perfiles profesionales en internet están mal escritos. No porque sus dueños no tengan nada que decir, sino porque nadie les enseñó a decirlo de la manera correcta para cada contexto.
+
+Un bio de LinkedIn tiene que sonar distinto al de Twitter, que tiene que sonar distinto al de un portfolio de diseño, que tiene que sonar distinto al pie de firma de un email de negocios. Cada plataforma tiene una extensión, un tono y una audiencia diferente. Adaptarlo manualmente para cada una toma tiempo, requiere criterio editorial, y muchas personas simplemente copian el mismo texto en todos lados.
+
+El resultado: miles de perfiles con "Apasionado/a por la innovación" o "Profesional con más de X años de experiencia" — frases que no dicen nada y que todos ignoran.
+
+La IA puede resolver esto en segundos. El usuario solo necesita describir lo que hace de manera natural; la app se encarga del resto.
+
+## Solución Propuesta
+
+El flujo es deliberadamente simple — y eso es lo que lo hace especial para un proyecto principiante.
+
+El usuario completa un formulario con campos en lenguaje natural: qué hace, en qué industria trabaja, cuánto tiempo lleva haciéndolo, cuál es su logro más importante, y qué tono quiere proyectar (formal, cercano, creativo). También elige la plataforma de destino: LinkedIn, Twitter/X, portfolio, o email.
+
+Con un solo clic, esa información llega a la IA a través de una ruta de servidor. La IA recibe las respuestas del formulario construidas como un prompt claro, y devuelve un bio listo para usar — con la extensión correcta para la plataforma elegida y el tono que el usuario pidió.
+
+El resultado aparece en pantalla con un botón para copiarlo al portapapeles. Sin fricción, sin pasos extra. El usuario prueba, ajusta si quiere, y copia.
+
+## Tech Stack
+
+- **Next.js (App Router)**: La estructura de la app. Maneja tanto la interfaz como la comunicación con la IA desde el servidor, sin necesidad de un backend separado.
+- **TypeScript**: Ayuda a que el código sea más predecible. Para este proyecto, simplemente asegura que los datos del formulario tengan el formato correcto antes de enviarse.
+- **Tailwind CSS**: El estilo visual de la app. Formulario, botón, resultado — todo con clases de utilidad sin escribir CSS desde cero.
+- **SDK de IA** (Anthropic, OpenAI, Google): El motor que convierte la descripción del usuario en texto profesional. Cualquier proveedor con un modelo de lenguaje moderno funciona para este caso de uso.
+
+## Features del MVP
+
+- [ ] Formulario con campos en lenguaje natural (rol, industria, experiencia, logro, tono)
+- [ ] Selector de plataforma de destino (LinkedIn, Twitter/X, portfolio, email)
+- [ ] Generación del bio con un solo clic
+- [ ] Visualización del resultado con formato limpio
+- [ ] Botón para copiar el texto al portapapeles
+- [ ] Indicador de carga mientras la IA genera el texto
+- [ ] Manejo de errores: campo vacío, fallo de conexión con la IA
+
+## Pasos Sugeridos
+
+1. **Activar el modo aprendizaje**: Antes de escribir una sola línea de código, abre tu agente de IA y dile: "Soy principiante, nunca he construido una app con IA. Vamos a hacer este proyecto juntos. Necesito que antes de escribir código me expliques qué vas a hacer y por qué. Si hay conceptos que deba entender primero, explícamelos en lenguaje simple." Este paso cambia completamente la experiencia — en lugar de recibir código que no entiendes, recibes explicaciones que construyen tu criterio.
+
+2. **Crear el proyecto base**: Pide a tu agente de IA que cree un proyecto nuevo en Next.js con TypeScript y Tailwind. No necesitas saber qué significa cada cosa todavía — el agente lo instala y te explica para qué sirve cada parte. Cuando termine, verifica que puedas ver una pantalla en blanco funcionando en tu computadora antes de continuar.
+
+3. **Diseñar el formulario en papel primero**: Antes de pedirle al agente que programe nada, escribe en papel (o en un documento) qué campos tendría tu formulario si lo diseñaras para un amigo. ¿Qué le preguntarías? ¿Cómo lo formularías para que cualquier persona lo entienda? Esa lista es el diseño real del formulario. Luego pide a tu agente que lo construya basado en lo que escribiste.
+
+> **Tip**: Los mejores formularios se diseñan pensando en el usuario más nervioso, no en el más experto. Si alguien que nunca ha escrito un bio puede completarlo sin confusión, el formulario está bien diseñado.
+
+4. **Conectar el formulario con la IA**: Esta es la parte central del proyecto. Le explicas a tu agente en lenguaje natural: "Cuando el usuario haga clic en Generar, quiero que la información del formulario se envíe a la IA y que el resultado aparezca en pantalla." El agente construye el código; tú validas que el resultado sea coherente con lo que ingresaste. Prueba con tu propia información primero.
+
+5. **Revisar y ajustar el prompt**: El prompt que le llega a la IA determina la calidad del resultado. Pide a tu agente que te muestre el texto exacto que se envía al modelo. Léelo. ¿Tiene sentido? ¿Incluye toda la información del formulario? ¿Le dice claramente qué plataforma y qué tono debe usar? Ajústalo hasta que el output sea algo que realmente usarías.
+
+> **Tip**: Prueba el mismo formulario con tres plataformas distintas. Si los tres resultados suenan igual, el prompt no está diferenciando bien los contextos. Pide a tu agente que lo refine.
+
+6. **Agregar el botón de copiar**: Pide a tu agente que agregue un botón que copie el texto generado al portapapeles con un solo clic. Pruébalo tú mismo: ¿el texto queda bien copiado? ¿Aparece algún mensaje de confirmación para el usuario?
+
+7. **Publicar la app**: Cuando todo funcione en tu computadora, pide a tu agente que te guíe para publicarla en Vercel. La parte más importante: la contraseña de la IA (tu API key) nunca debe ser visible para quien use la app. Pide a tu agente que te explique por qué esto es importante y cómo verificarlo antes de publicar.
+
+## Lo que vas a aprender
+
+- Cómo convertir información de un formulario en instrucciones para una IA — el puente entre lo que el usuario escribe y lo que el modelo recibe
+- Qué es una ruta de servidor y por qué la contraseña de la IA vive ahí y no en el navegador
+- Cómo el texto de un prompt cambia completamente la calidad del resultado — y cómo mejorarlo sin tocar código
+- Cómo mostrar estados de carga para que el usuario sepa que algo está pasando mientras espera
+- Cómo publicar una app en internet para que cualquier persona pueda usarla
+
+## Checklist de Buenas Prácticas
+
+### Seguridad
+- [ ] La API key de la IA no debe aparecer en ningún lugar del navegador — pide a tu agente que te muestre cómo verificarlo: abre las herramientas de desarrollador (F12), busca en la pestaña "Network" y confirma que la clave no aparece en ninguna solicitud visible
+- [ ] El formulario debe validar que los campos esenciales no estén vacíos antes de enviar — pruébalo tú mismo: haz clic en "Generar" sin llenar nada y verifica que la app muestre un mensaje claro, no un error técnico
+
+### Rendimiento
+- [ ] Mostrar un indicador de carga mientras la IA procesa la solicitud — el usuario no debe quedarse mirando una pantalla que parece congelada
+- [ ] Si la IA tarda más de 30 segundos, mostrar un mensaje de error amigable — pide a tu agente que agregue un tiempo límite a la solicitud
+
+### Arquitectura y Estructura
+- [ ] La comunicación con la IA debe ocurrir en el servidor, no directamente desde el navegador — pide a tu agente que te explique la diferencia y por qué importa
+- [ ] El prompt que se envía a la IA debe incluir toda la información del formulario de forma ordenada — verifica que si cambias el tono o la plataforma, el resultado cambie notablemente
+
+### Antes de publicar (MVP Checklist)
+- [ ] Prueba la app con tu propia información real — ¿el resultado es algo que usarías?
+- [ ] Prueba con campos vacíos o con texto muy corto — la app debe mostrar un mensaje útil, no un error en blanco
+- [ ] Verifica que el botón de copiar funciona en distintos navegadores (Chrome, Firefox, Safari)
+- [ ] Confirma que la API key no aparece en el código fuente de la página — en el navegador, haz clic derecho → "Ver código fuente" y busca tu clave
+
+## Recursos y Referencias
+
+- [Next.js — Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
+- [Anthropic — Primeros pasos con la API](https://docs.anthropic.com/en/docs/get-started)
+- [OpenAI — Quickstart](https://platform.openai.com/docs/quickstart)
+- [Google — Gemini API Quickstart](https://ai.google.dev/gemini-api/docs/quickstart)
+- [Vercel — Variables de entorno](https://vercel.com/docs/projects/environment-variables)
+
+## Habilidades que Desarrollas
+
+- **Diseño de formularios centrado en el usuario**: Crear campos que cualquier persona pueda completar sin instrucciones — una habilidad que aplica a cualquier app que construyas.
+- **Prompt engineering básico**: Aprender a darle instrucciones claras a la IA para obtener resultados consistentes y útiles, no genéricos.
+- **Integración de IA en apps web**: El patrón formulario → API → resultado es el más común en aplicaciones de productividad con IA — aprenderlo una vez te sirve para decenas de proyectos.
+- **Publicación de apps con variables de entorno**: Entender cómo proteger credenciales al hacer deploy es una práctica fundamental desde el primer proyecto.
+
+## Impacto en tu Carrera
+
+Este proyecto es pequeño en arquitectura pero enorme en impacto inmediato: al terminar, tienes una herramienta que tú mismo puedes usar para mejorar tu propio perfil profesional.
+
+Además, demuestra algo más valioso que la complejidad técnica: que puedes identificar un problema real, construir una solución funcional, y publicarla. Eso es exactamente lo que separa un portfolio de "hice tutoriales" de uno de "construí cosas que funcionan".
+
+El patrón que aprendes aquí — recibir texto del usuario, procesarlo con IA, devolver texto mejorado — se repite en generadores de contenido, herramientas de escritura, asistentes de email, y decenas de aplicaciones de productividad. Dominarlo en un proyecto simple te prepara para construir versiones más complejas con confianza.
+
+## Antes de Empezar
+
+- **Necesitas**: Una cuenta en cualquier proveedor de IA (Anthropic, OpenAI, Google) y su API key. La mayoría ofrece créditos gratuitos para empezar.
+- **Herramienta**: Claude Code, Cursor, Windsurf o cualquier agente con soporte para proyectos completos. Elige la que ya conoces — si es tu primera vez, cualquiera funciona.
+- **No necesitas**: Saber programar. Este proyecto está diseñado para que el agente escriba el código y tú lo dirijas y entiendas.
+- **Tiempo real**: 3-4 horas para una versión funcional si usas el modo aprendizaje correctamente. La segunda semana es para ajustar el prompt y mejorar los detalles de la interfaz.
+- **Mentalidad**: El objetivo no es que el código funcione — es que entiendas por qué funciona. Si el agente escribe algo que no entiendes, pregunta antes de avanzar.
+
+## Cómo Abordarlo
+
+### Divide el proyecto en fases
+
+**Fase 1 — El formulario (2-3 horas):** Diseñar y construir la interfaz donde el usuario describe su experiencia. El objetivo de esta fase es tener un formulario visualmente limpio que cualquier persona pueda completar sin ayuda.
+
+**Fase 2 — La conexión con la IA (2-3 horas):** Hacer que la información del formulario llegue a la IA y que el resultado aparezca en pantalla. El objetivo de esta fase es ver por primera vez tu propio nombre convertido en un bio profesional generado por la app.
+
+**Fase 3 — Los detalles que importan (1-2 horas):** Agregar el botón de copiar, el estado de carga, y los mensajes de error. El objetivo de esta fase es que la app se sienta terminada, no como un prototipo.
+
+**Fase 4 — Publicar (1 hora):** Subir la app a internet con la API key protegida. El objetivo de esta fase es tener una URL que puedas compartir.
+
+### ¿Agente o modo chat?
+
+**Modo agente** para las Fases 1 y 2 — hay que crear varios archivos y conectar piezas que el agente maneja mejor de forma autónoma. **Modo chat** para la Fase 3 — los ajustes son puntuales y es mejor ir uno por uno para entender cada cambio.
+
+### ¿TUI o editor?
+
+- **Agente (Claude Code, Cursor Agent, Windsurf):** Para crear el proyecto, el formulario y la conexión con la IA.
+- **Editor inline (Cursor, Copilot):** Para ajustar el prompt de la IA y el texto de los mensajes de error — son cambios pequeños donde conviene ver el contexto.
+
+### Prompt inicial sugerido
+
+Copia este prompt, reemplaza las partes entre `{{}}` y pégalo en tu agente de IA para arrancar.
+
+```
+Soy principiante — nunca he construido una app con IA. Quiero construir una herramienta
+web donde el usuario describe su experiencia profesional en sus propias palabras y obtiene
+una bio lista para usar en distintas plataformas.
+
+Antes de escribir código, hazme las preguntas que necesites para entender bien
+lo que quiero construir. No empieces a programar hasta que yo confirme que entendiste.
+
+El flujo de la app es:
+1. El usuario completa un formulario con: su nombre, qué hace (en sus palabras),
+   industria o área, años de experiencia, un logro importante, el tono que quiere
+   (formal / cercano / creativo), y la plataforma de destino
+   (LinkedIn / Twitter o X / portfolio / email).
+2. Hace clic en "Generar bio".
+3. La app envía esa información a {{tu proveedor de IA preferido, ej: Anthropic, OpenAI, Google}}
+   y muestra el resultado en pantalla.
+4. El usuario puede copiar el texto con un botón.
+
+A lo largo de todo el proyecto necesito que:
+- Me expliques qué hace cada parte del código antes de escribirla
+- Me avises si hay algún concepto que deba entender antes de continuar
+- La API key de la IA esté protegida y nunca sea visible en el navegador
+- Al final me guíes para publicar la app en Vercel
+
+Empecemos con las preguntas.
+```
+
+> **Tip**: Cuando el agente genere el primer bio con tu información real, léelo con ojo crítico: ¿suena como tú o suena genérico? La respuesta te dice exactamente qué ajustar en el prompt — y aprender a hacer ese ajuste es la habilidad más valiosa de este proyecto.
